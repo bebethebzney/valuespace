@@ -836,6 +836,106 @@
     footer { padding: 48px 24px 28px; }
     .footer-top { grid-template-columns: 1fr 1fr; }
   }
+  /* ── PDF PREVIEW MODAL ── */
+  .pdf-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .pdf-modal.open { display: flex; }
+  .pdf-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,14,26,0.88);
+    cursor: pointer;
+  }
+  .pdf-modal-inner {
+    position: relative;
+    z-index: 1;
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.2);
+    width: 90vw;
+    max-width: 1000px;
+    height: 88vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  }
+  .pdf-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    flex-shrink: 0;
+    gap: 16px;
+  }
+  .pdf-modal-title {
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pdf-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .pdf-modal-dl {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  .pdf-modal-dl:hover { opacity: 1; }
+  .pdf-modal-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 2px 6px;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .pdf-modal-close:hover { color: rgba(255,255,255,0.9); }
+  .pdf-modal-frame {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: #e8e8e8;
+  }
+
+  /* ── LOCKED / COMING-SOON CARD ── */
+  .report-card.locked {
+    pointer-events: none;
+    opacity: 0.45;
+  }
+  .report-card.locked .report-dl { display: none; }
+  .locked-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(10,14,26,0.7);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: rgba(201,168,76,0.6);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    padding: 4px 10px;
+    text-transform: uppercase;
+  }
+
 </style>
 </head>
 <body>
@@ -1018,31 +1118,33 @@
           <line x1="16" y1="17" x2="8" y2="17"/>
           <polyline points="10 9 9 9 8 9"/>
         </svg>
-        <span class="featured-thumb-label">2025 Q1 Report</span>
+        <span class="featured-thumb-label">2026 Report</span>
       </div>
     </div>
     <div class="featured-content">
       <div>
         <div class="featured-meta">
           <span class="report-tag">시장분석</span>
-          <span class="featured-date">2025년 3월 발행</span>
+          <span class="featured-date">2026년 5월 발행</span>
         </div>
         <h2 class="featured-title">
-          2025년 1분기 수도권 상업용 부동산<br>시장 동향 및 투자 전략 보고서
+          5극 3특 정책과 상업용 부동산<br>투자 기회 분석 보고서
         </h2>
         <p class="featured-summary">
-          금리 안정화 국면에 접어든 2025년 1분기, 수도권 상가 및 오피스 시장은
-          공실률 개선과 임대료 회복세를 보이고 있습니다. 권역별 상세 데이터와
-          투자 매력도 분석, 2분기 전망을 담은 종합 보고서입니다.
+          정부의 5극(5대 광역권) 3특(3개 특별자치구역) 개발 전략이 상업용
+          부동산 시장에 가져올 구조적 변화를 분석하고, 권역별 선점 투자
+          기회와 유망 입지 전략을 제시합니다.
         </p>
       </div>
       <div class="featured-footer">
-        <span class="featured-pages">48페이지 · PDF</span>
+        <span class="featured-pages">PDF</span>
         <div style="display: flex; gap: 12px;">
-          <a href="#" class="btn-outline-gold">
+          <button onclick="openPdfModal('5극3특')" class="btn-outline-gold">
             미리보기
-          </a>
-          <a href="#" class="btn-primary">
+          </button>
+          <a href="5%EA%B7%B9%203%ED%8A%B9_%ED%88%AC%EC%9E%90%20%EB%A6%AC%ED%8F%AC%ED%8A%B8.pdf"
+             download="5극 3특_투자 리포트.pdf"
+             class="btn-primary">
             무료 다운로드
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
@@ -1063,13 +1165,47 @@
       <p class="section-eyebrow">전체 리포트</p>
       <h2 class="section-title">축적된 분석 자료</h2>
     </div>
-    <span class="reports-count">총 12건</span>
+    <span class="reports-count">총 2건</span>
   </div>
 
   <div class="reports-grid" id="reportsGrid">
 
-    <!-- 리포트 1 -->
-    <a href="#" class="report-card" data-category="office">
+    <!-- 리포트 1 — 실제 PDF -->
+    <div class="report-card" data-category="market"
+         onclick="openPdfModal('134만호')" style="cursor:pointer;">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span class="report-thumb-num">2026 Report</span>
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">시장분석</span>
+          <span class="report-date">2026.05</span>
+        </div>
+        <h3 class="report-title">1.34만호 분양 공급 정책과 상권 투자 영향 분석</h3>
+        <p class="report-desc">정부의 1.34만호 분양 공급 계획이 인근 상업지 수요·공실·임대수익에 미치는 파급효과와 투자 시점을 분석합니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">PDF</span>
+          <span class="report-dl">
+            미리보기 / 다운로드
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 리포트 2 — 준비 중 -->
+    <div class="report-card locked" data-category="office">
       <div class="report-thumb">
         <div class="report-thumb-pattern"></div>
         <div class="report-thumb-inner">
@@ -1078,65 +1214,26 @@
             <line x1="8" y1="21" x2="16" y2="21"/>
             <line x1="12" y1="17" x2="12" y2="21"/>
           </svg>
-          <span class="report-thumb-num">2024 Q4</span>
+          <span class="report-thumb-num">Coming Soon</span>
         </div>
+        <span class="locked-badge">준비 중</span>
       </div>
       <div class="report-body">
         <div class="report-meta">
           <span class="report-category">오피스</span>
-          <span class="report-date">2024.12</span>
+          <span class="report-date">출시 예정</span>
         </div>
-        <h3 class="report-title">수도권 오피스 시장 2024년 4분기 공실률 및 임대가 동향</h3>
-        <p class="report-desc">서울 3대 권역(GBD·CBD·YBD) 공실률 변화와 임대료 추이를 분석하고 2025년 전망을 제시합니다.</p>
+        <h3 class="report-title">수도권 오피스 시장 공실률 및 임대가 동향 분석</h3>
+        <p class="report-desc">서울 3대 권역(GBD·CBD·YBD) 공실률 변화와 임대료 추이를 분석하고 향후 전망을 제시합니다.</p>
         <div class="report-footer">
-          <span class="report-pages">32페이지</span>
-          <span class="report-dl">
-            다운로드
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-          </span>
+          <span class="report-pages">출시 예정</span>
+          <span class="report-dl"></span>
         </div>
       </div>
-    </a>
+    </div>
 
-    <!-- 리포트 2 -->
-    <a href="#" class="report-card" data-category="retail">
-      <div class="report-thumb">
-        <div class="report-thumb-pattern"></div>
-        <div class="report-thumb-inner">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span class="report-thumb-num">2024 Q4</span>
-        </div>
-      </div>
-      <div class="report-body">
-        <div class="report-meta">
-          <span class="report-category">상가</span>
-          <span class="report-date">2024.11</span>
-        </div>
-        <h3 class="report-title">경기남부 신도시 상가 투자 수익률 분석 보고서</h3>
-        <p class="report-desc">광교·동탄·판교 상권의 공실률, 평균 임대수익률, 거래 사례를 비교 분석한 지역 특화 보고서입니다.</p>
-        <div class="report-footer">
-          <span class="report-pages">28페이지</span>
-          <span class="report-dl">
-            다운로드
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-    <!-- 리포트 3 -->
-    <a href="#" class="report-card" data-category="yield">
+    <!-- 리포트 3 — 준비 중 -->
+    <div class="report-card locked" data-category="yield">
       <div class="report-thumb">
         <div class="report-thumb-pattern"></div>
         <div class="report-thumb-inner">
@@ -1145,66 +1242,26 @@
             <line x1="12" y1="20" x2="12" y2="4"/>
             <line x1="6" y1="20" x2="6" y2="14"/>
           </svg>
-          <span class="report-thumb-num">2024 H2</span>
+          <span class="report-thumb-num">Coming Soon</span>
         </div>
+        <span class="locked-badge">준비 중</span>
       </div>
       <div class="report-body">
         <div class="report-meta">
           <span class="report-category">수익률</span>
-          <span class="report-date">2024.10</span>
+          <span class="report-date">출시 예정</span>
         </div>
-        <h3 class="report-title">상업용 부동산 자산유형별 투자수익률 비교 — 2024 하반기</h3>
+        <h3 class="report-title">상업용 부동산 자산유형별 투자수익률 비교</h3>
         <p class="report-desc">상가·오피스·물류·지식산업센터 등 주요 자산유형의 CAP Rate와 총투자수익률을 비교 정리합니다.</p>
         <div class="report-footer">
-          <span class="report-pages">24페이지</span>
-          <span class="report-dl">
-            다운로드
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-          </span>
+          <span class="report-pages">출시 예정</span>
+          <span class="report-dl"></span>
         </div>
       </div>
-    </a>
+    </div>
 
-    <!-- 리포트 4 -->
-    <a href="#" class="report-card" data-category="market">
-      <div class="report-thumb">
-        <div class="report-thumb-pattern"></div>
-        <div class="report-thumb-inner">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-          </svg>
-          <span class="report-thumb-num">2024 Q3</span>
-        </div>
-      </div>
-      <div class="report-body">
-        <div class="report-meta">
-          <span class="report-category">시장분석</span>
-          <span class="report-date">2024.09</span>
-        </div>
-        <h3 class="report-title">금리 인하 사이클과 상업용 부동산 시장 영향 분석</h3>
-        <p class="report-desc">기준금리 변화가 상업용 부동산 거래량, 캡레이트, 가격에 미치는 영향을 글로벌 사례와 비교 분석합니다.</p>
-        <div class="report-footer">
-          <span class="report-pages">36페이지</span>
-          <span class="report-dl">
-            다운로드
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-    <!-- 리포트 5 -->
-    <a href="#" class="report-card" data-category="region">
+    <!-- 리포트 4 — 준비 중 -->
+    <div class="report-card locked" data-category="region">
       <div class="report-thumb">
         <div class="report-thumb-pattern"></div>
         <div class="report-thumb-inner">
@@ -1212,32 +1269,54 @@
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
             <circle cx="12" cy="10" r="3"/>
           </svg>
-          <span class="report-thumb-num">2024 Q3</span>
+          <span class="report-thumb-num">Coming Soon</span>
         </div>
+        <span class="locked-badge">준비 중</span>
       </div>
       <div class="report-body">
         <div class="report-meta">
           <span class="report-category">지역별</span>
-          <span class="report-date">2024.08</span>
+          <span class="report-date">출시 예정</span>
         </div>
-        <h3 class="report-title">광교신도시 상업지구 현황 및 투자 가치 분석</h3>
-        <p class="report-desc">광교 상업지구 내 권역별 공실 현황, 임대사례, 향후 공급계획을 토대로 한 투자 적기 분석 보고서입니다.</p>
+        <h3 class="report-title">경기남부 신도시 상업지구 투자 가치 분석</h3>
+        <p class="report-desc">광교·동탄·판교 상권의 공실률, 평균 임대수익률, 거래 사례를 비교 분석한 지역 특화 보고서입니다.</p>
         <div class="report-footer">
-          <span class="report-pages">20페이지</span>
-          <span class="report-dl">
-            다운로드
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-          </span>
+          <span class="report-pages">출시 예정</span>
+          <span class="report-dl"></span>
         </div>
       </div>
-    </a>
+    </div>
 
-    <!-- 리포트 6 -->
-    <a href="#" class="report-card" data-category="office">
+    <!-- 리포트 5 — 준비 중 -->
+    <div class="report-card locked" data-category="retail">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="report-thumb-num">Coming Soon</span>
+        </div>
+        <span class="locked-badge">준비 중</span>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">상가</span>
+          <span class="report-date">출시 예정</span>
+        </div>
+        <h3 class="report-title">금리 인하 사이클과 상가 투자 시점 분석</h3>
+        <p class="report-desc">기준금리 변화가 상업용 부동산 거래량, 캡레이트, 임대수익에 미치는 영향을 심층 분석합니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">출시 예정</span>
+          <span class="report-dl"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 리포트 6 — 준비 중 -->
+    <div class="report-card locked" data-category="office">
       <div class="report-thumb">
         <div class="report-thumb-pattern"></div>
         <div class="report-thumb-inner">
@@ -1247,29 +1326,23 @@
             <path d="M23 21v-2a4 4 0 00-3-3.87"/>
             <path d="M16 3.13a4 4 0 010 7.75"/>
           </svg>
-          <span class="report-thumb-num">2024 Q2</span>
+          <span class="report-thumb-num">Coming Soon</span>
         </div>
+        <span class="locked-badge">준비 중</span>
       </div>
       <div class="report-body">
         <div class="report-meta">
           <span class="report-category">오피스</span>
-          <span class="report-date">2024.06</span>
+          <span class="report-date">출시 예정</span>
         </div>
         <h3 class="report-title">중소형 오피스 임대 수요 변화와 공유오피스 시장 영향</h3>
-        <p class="report-desc">재택·하이브리드 근무 확산에 따른 오피스 수요 구조 변화와 전통 임대시장에 대한 영향을 심층 분석합니다.</p>
+        <p class="report-desc">재택·하이브리드 근무 확산에 따른 오피스 수요 구조 변화와 전통 임대시장에 대한 영향을 분석합니다.</p>
         <div class="report-footer">
-          <span class="report-pages">30페이지</span>
-          <span class="report-dl">
-            다운로드
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-          </span>
+          <span class="report-pages">출시 예정</span>
+          <span class="report-dl"></span>
         </div>
       </div>
-    </a>
+    </div>
 
   </div>
 
@@ -1361,6 +1434,46 @@
 </footer>
 
 <script>
+  const PDF_FILES = {
+    '5극3특': {
+      path: '5%EA%B7%B9%203%ED%8A%B9_%ED%88%AC%EC%9E%90%20%EB%A6%AC%ED%8F%AC%ED%8A%B8.pdf',
+      name: '5극 3특_투자 리포트.pdf',
+      title: '5극 3특 정책과 상업용 부동산 투자 기회 분석 보고서'
+    },
+    '134만호': {
+      path: '1.34%EB%A7%8C%ED%98%B8%20%EB%B6%84%EC%96%91_%ED%88%AC%EC%9E%90%20%EB%A6%AC%ED%8F%AC%ED%8A%B8.pdf',
+      name: '1.34만호 분양_투자 리포트.pdf',
+      title: '1.34만호 분양 공급 정책과 상권 투자 영향 분석 보고서'
+    }
+  };
+
+  function openPdfModal(key) {
+    const pdf = PDF_FILES[key];
+    document.getElementById('pdfModalFrame').src = pdf.path;
+    document.getElementById('pdfModalTitle').textContent = pdf.title;
+    const dl = document.getElementById('pdfModalDownload');
+    dl.href = pdf.path;
+    dl.download = pdf.name;
+    document.getElementById('pdfModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePdfModal() {
+    document.getElementById('pdfModal').classList.remove('open');
+    document.getElementById('pdfModalFrame').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('pdfModal').addEventListener('click', function(e) {
+    if (e.target === this || e.target.classList.contains('pdf-modal-backdrop')) {
+      closePdfModal();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePdfModal();
+  });
+
   function filterReports(category, btn) {
     document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -1375,6 +1488,28 @@
     });
   }
 </script>
+
+<!-- PDF PREVIEW MODAL -->
+<div id="pdfModal" class="pdf-modal">
+  <div class="pdf-modal-backdrop"></div>
+  <div class="pdf-modal-inner">
+    <div class="pdf-modal-header">
+      <span id="pdfModalTitle" class="pdf-modal-title"></span>
+      <div class="pdf-modal-actions">
+        <a id="pdfModalDownload" href="#" download class="pdf-modal-dl">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          다운로드
+        </a>
+        <button onclick="closePdfModal()" class="pdf-modal-close" aria-label="닫기">&#x2715;</button>
+      </div>
+    </div>
+    <iframe id="pdfModalFrame" src="" class="pdf-modal-frame" title="PDF 미리보기"></iframe>
+  </div>
+</div>
 
 </body>
 </html>
