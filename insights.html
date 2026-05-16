@@ -120,19 +120,20 @@
       linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
     background-size: 80px 80px;
   }
-  /* 우측 장식 원 */
-  .page-hero::after {
-    content: '';
+  /* 우측 픽셀 도시 장식 */
+  .hero-city-deco {
     position: absolute;
-    right: 200px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    border: 1px solid rgba(201,168,76,0.08);
-    box-shadow: 0 0 0 60px rgba(201,168,76,0.03), 0 0 0 120px rgba(201,168,76,0.015);
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 56%;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%);
+    mask-image: linear-gradient(to right, transparent 0%, black 22%);
   }
+  .hero-city-deco svg { width: 100%; height: auto; }
   .page-hero-inner {
     position: relative;
     z-index: 1;
@@ -483,10 +484,21 @@
   .card-img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(13,27,42,0.6) 0%, transparent 60%);
+    background: linear-gradient(to top, rgba(13,27,42,0.82) 0%, rgba(13,27,42,0.25) 55%, transparent 100%);
     transition: opacity 0.3s;
+    z-index: 1;
   }
-  .article-card:hover .card-img-overlay { opacity: 1.3; }
+  .article-card:hover .card-img-overlay { opacity: 1.15; }
+
+  .card-img img, .featured-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .card-img-tag { z-index: 2; }
 
   .card-img-tag {
     position: relative;
@@ -580,123 +592,114 @@
   }
   .article-card:hover .card-arrow { gap: 10px; }
 
-  /* ── LOAD MORE ── */
-  .load-more-wrap {
+  /* ── PAGINATION ── */
+  .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 4px;
     margin-top: 56px;
   }
-  .btn-load-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px 48px;
-    border: 1px solid rgba(201,168,76,0.4);
-    color: var(--navy);
+  .page-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(201,168,76,0.3);
     background: transparent;
-    font-size: 12px;
+    color: var(--navy);
+    font-size: 13px;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 400;
-    letter-spacing: 0.1em;
-    border-radius: 2px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.25s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    text-decoration: none;
+    letter-spacing: 0;
   }
-  .btn-load-more:hover {
+  .page-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .page-btn-active {
     background: var(--navy);
     border-color: var(--navy);
     color: var(--gold);
   }
+  .page-btn-arrow { color: var(--text-muted); font-size: 15px; }
 
-  /* ── TOPICS BAND ── */
-  .topics-band {
+  /* ── CTA BANNER ── */
+  .cta-banner {
     background: var(--navy);
-    padding: 60px 240px;
-    border-top: 1px solid rgba(201,168,76,0.1);
-    border-bottom: 1px solid rgba(201,168,76,0.1);
-  }
-  .topics-inner {
+    padding: 80px 240px;
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 64px;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
     align-items: center;
+    border-top: 1px solid rgba(201,168,76,0.15);
   }
-  .topics-label {
+  .cta-eyebrow {
     font-size: 11px;
     letter-spacing: 0.3em;
     color: var(--gold);
     text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .topics-list {
+    margin-bottom: 20px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .topic-chip {
-    padding: 8px 18px;
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 100px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.55);
-    text-decoration: none;
-    transition: all 0.25s;
-    letter-spacing: 0.03em;
-  }
-  .topic-chip:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-    background: rgba(201,168,76,0.06);
-  }
-
-  /* ── CTA BANNER ── */
-  .cta-banner {
-    background: var(--cream);
-    padding: 80px 240px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 60px;
     align-items: center;
-    border-top: 1px solid rgba(201,168,76,0.2);
+    gap: 12px;
   }
+  .cta-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
   .cta-banner-title {
     font-family: 'Noto Serif KR', serif;
-    font-size: clamp(22px, 2.4vw, 30px);
+    font-size: clamp(24px, 2.6vw, 34px);
     font-weight: 400;
-    color: var(--navy);
-    line-height: 1.55;
-    margin-bottom: 10px;
+    color: var(--white);
+    line-height: 1.42;
+    margin-bottom: 16px;
     letter-spacing: -0.02em;
   }
+  .cta-banner-title em { font-style: normal; color: var(--gold-light); }
   .cta-banner-desc {
     font-size: 14px;
     line-height: 1.85;
-    color: var(--text-muted);
+    color: rgba(255,255,255,0.45);
   }
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    background: var(--navy);
-    color: var(--gold);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+  .cta-form { display: flex; flex-direction: column; gap: 12px; }
+  .cta-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cta-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.25s, background 0.25s;
     border-radius: 2px;
-    transition: all 0.3s;
-    white-space: nowrap;
-    border: 1px solid rgba(201,168,76,0.3);
+    letter-spacing: 0.02em;
   }
-  .btn-primary:hover {
+  .cta-input::placeholder { color: rgba(255,255,255,0.3); }
+  .cta-input:focus { border-color: rgba(201,168,76,0.5); background: rgba(255,255,255,0.1); }
+  .btn-cta-submit {
+    width: 100%;
+    padding: 16px;
     background: var(--gold);
     color: var(--navy);
-    border-color: var(--gold);
-    transform: translateY(-2px);
+    border: none;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 2px;
   }
-  .btn-primary svg { transition: transform 0.3s; }
-  .btn-primary:hover svg { transform: translateX(4px); }
+  .btn-cta-submit:hover { background: var(--gold-light); }
+  .cta-disclaimer {
+    font-size: 11px;
+    color: rgba(255,255,255,0.28);
+    line-height: 1.75;
+  }
 
   /* ── FOOTER ── */
   footer {
@@ -782,7 +785,7 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 1100px) {
     nav, .page-hero, .featured-section,
-    .articles-section, .topics-band, .cta-banner, footer {
+    .articles-section, .cta-banner, footer {
       padding-left: 48px;
       padding-right: 48px;
     }
@@ -791,7 +794,7 @@
   @media (max-width: 900px) {
     nav { padding: 0 24px; }
     .page-hero { padding: 140px 24px 64px; }
-    .page-hero::after { display: none; }
+    .hero-city-deco { display: none; }
     .filter-bar { padding: 0 24px; }
     .featured-section { padding: 60px 24px 48px; }
     .featured-article { grid-template-columns: 1fr; }
@@ -801,9 +804,8 @@
     .articles-header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .articles-featured-row { grid-template-columns: 1fr; }
     .articles-grid { grid-template-columns: 1fr; }
-    .topics-band { padding: 48px 24px; }
-    .topics-inner { grid-template-columns: 1fr; gap: 24px; }
-    .cta-banner { padding: 60px 24px; grid-template-columns: 1fr; gap: 32px; }
+    .cta-banner { padding: 60px 24px; grid-template-columns: 1fr; gap: 40px; }
+    .cta-form-row { grid-template-columns: 1fr; }
     footer { padding: 48px 24px 28px; }
     .footer-top { grid-template-columns: 1fr 1fr; }
   }
@@ -837,6 +839,46 @@
       임대 전략부터 자산 운용까지, 실전 인사이트를 공유합니다.
     </p>
   </div>
+  <!-- 픽셀 도시 장식 -->
+  <div class="hero-city-deco">
+    <svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <pattern id="dotFg" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.58)"/>
+        </pattern>
+        <pattern id="dotBg" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.17)"/>
+        </pattern>
+        <mask id="cityFg">
+          <rect width="560" height="380" fill="black"/>
+          <rect x="8"   y="198" width="38" height="182" fill="white"/>
+          <rect x="55"  y="155" width="33" height="225" fill="white"/>
+          <rect x="97"  y="208" width="28" height="172" fill="white"/>
+          <rect x="134" y="102" width="50" height="278" fill="white"/>
+          <rect x="193" y="30"  width="64" height="350" fill="white"/>
+          <rect x="266" y="86"  width="44" height="294" fill="white"/>
+          <rect x="319" y="142" width="38" height="238" fill="white"/>
+          <rect x="364" y="66"  width="54" height="314" fill="white"/>
+          <rect x="427" y="126" width="38" height="254" fill="white"/>
+          <rect x="474" y="156" width="44" height="224" fill="white"/>
+          <rect x="527" y="195" width="30" height="185" fill="white"/>
+        </mask>
+        <mask id="cityBg">
+          <rect width="560" height="380" fill="black"/>
+          <rect x="78"  y="122" width="23" height="258" fill="white"/>
+          <rect x="118" y="142" width="23" height="238" fill="white"/>
+          <rect x="178" y="55"  width="27" height="325" fill="white"/>
+          <rect x="249" y="110" width="27" height="270" fill="white"/>
+          <rect x="306" y="122" width="23" height="258" fill="white"/>
+          <rect x="349" y="78"  width="23" height="302" fill="white"/>
+          <rect x="412" y="110" width="27" height="270" fill="white"/>
+          <rect x="516" y="140" width="27" height="240" fill="white"/>
+        </mask>
+      </defs>
+      <rect width="560" height="380" fill="url(#dotBg)" mask="url(#cityBg)"/>
+      <rect width="560" height="380" fill="url(#dotFg)" mask="url(#cityFg)"/>
+    </svg>
+  </div>
 </section>
 
 <!-- FILTER BAR -->
@@ -851,15 +893,8 @@
   <p class="featured-eyebrow">에디터 추천</p>
   <a href="https://blog.valuespace.co.kr/2026%eb%85%84-1%eb%b6%84%ea%b8%b0-%ec%83%81%ec%97%85%ec%9a%a9%eb%b6%80%eb%8f%99%ec%82%b0-%ec%8b%9c%ec%9e%a5%eb%b6%84%ec%84%9d-%ea%b0%80%ec%b9%98%ea%b3%b5%ea%b0%84/" class="featured-article" target="_blank" rel="noopener">
     <div class="featured-img">
-      <div class="featured-img-pattern"></div>
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&h=900&fit=crop&q=80" alt="2026년 상업용부동산 시장 분석" loading="lazy">
       <div class="featured-img-overlay"></div>
-      <div class="featured-img-icon">
-        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6">
-          <line x1="18" y1="20" x2="18" y2="10"/>
-          <line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="14"/>
-        </svg>
-      </div>
       <div class="featured-img-content">
         <div class="article-tag">상가/사무실 · 투자전략</div>
         <p class="featured-img-title">
@@ -915,15 +950,8 @@
 
     <a href="https://blog.valuespace.co.kr/%ec%83%81%ea%b0%80-%ed%88%ac%ec%9e%90-%ec%a0%81%ea%b8%b0%ec%9d%b8%ea%b0%80-2026%eb%85%84-%ec%88%98%ec%9d%b5%ed%98%95-%eb%b6%80%eb%8f%99%ec%82%b0-%ec%99%84%eb%b2%bd-%ea%b0%80%ec%9d%b4%eb%93%9c/" class="article-card" data-category="invest" target="_blank" rel="noopener">
       <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
+        <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&h=500&fit=crop&q=80" alt="상가 투자" loading="lazy">
         <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <line x1="18" y1="20" x2="18" y2="10"/>
-            <line x1="12" y1="20" x2="12" y2="4"/>
-            <line x1="6" y1="20" x2="6" y2="14"/>
-          </svg>
-        </div>
         <div class="card-img-tag">
           <span class="article-tag" style="font-size:9px; padding: 3px 10px;">상가/사무실 · 투자전략</span>
         </div>
@@ -945,16 +973,8 @@
 
     <a href="https://blog.valuespace.co.kr/%ec%98%a4%ed%94%bc%ec%8a%a4-%ec%9e%84%eb%8c%80%ec%b0%a8-%ea%b3%84%ec%95%bd-%ec%b2%b4%ed%81%ac%ed%8f%ac%ec%9d%b8%ed%8a%b8-%ea%b0%80%ec%b9%98%ea%b3%b5%ea%b0%84/" class="article-card" data-category="store" target="_blank" rel="noopener">
       <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop&q=80" alt="오피스 임대차" loading="lazy">
         <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
         <div class="card-img-tag">
           <span class="article-tag" style="font-size:9px; padding: 3px 10px;">상가/사무실</span>
         </div>
@@ -976,14 +996,8 @@
 
     <a href="https://blog.valuespace.co.kr/%ec%83%81%ea%b6%8c-%eb%b6%84%ec%84%9d-%ed%95%98%eb%8a%94-%eb%b2%95-%ec%b4%88%eb%b3%b4-%ed%88%ac%ec%9e%90%ec%9e%90-%ea%b0%80%ec%9d%b4%eb%93%9c/" class="article-card" data-category="store" target="_blank" rel="noopener">
       <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
+        <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&h=500&fit=crop&q=80" alt="상권 분석" loading="lazy">
         <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        </div>
         <div class="card-img-tag">
           <span class="article-tag" style="font-size:9px; padding: 3px 10px;">상가/사무실</span>
         </div>
@@ -1005,51 +1019,41 @@
 
   </div>
 
-  <div class="load-more-wrap">
-    <a href="https://blog.valuespace.co.kr/" class="btn-load-more" target="_blank" rel="noopener">
-      블로그에서 더 보기
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
-      </svg>
-    </a>
+  <!-- 페이지네이션 -->
+  <div class="pagination">
+    <button class="page-btn page-btn-arrow" aria-label="이전">&#8592;</button>
+    <button class="page-btn page-btn-active">1</button>
+    <button class="page-btn">2</button>
+    <button class="page-btn page-btn-arrow" aria-label="다음">&#8594;</button>
   </div>
 </section>
-
-<!-- TOPICS BAND -->
-<div class="topics-band">
-  <div class="topics-inner">
-    <span class="topics-label">주요 토픽</span>
-    <div class="topics-list">
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">상업용부동산</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">상가 투자</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">오피스 임대차</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">상권 분석</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">투자전략</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">수익형 부동산</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">2026년 시장분석</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">금리</a>
-      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">임대관리</a>
-    </div>
-  </div>
-</div>
 
 <!-- CTA BANNER -->
 <section class="cta-banner">
   <div>
+    <p class="cta-eyebrow">인사이트 알림 신청</p>
     <h2 class="cta-banner-title">
-      인사이트를 실전에 적용하고 싶으시다면<br>전문가와 직접 상담하세요
+      새 글이 발행되면<br>
+      <em>이메일로 바로 받아보세요</em>
     </h2>
     <p class="cta-banner-desc">
-      분석 내용을 바탕으로 내 자산에 맞는 전략을 수립해 드립니다.<br>
-      초기 상담은 무료입니다.
+      매월 발행되는 시장 분석 인사이트와<br>
+      임시 발행 지역·테마 글을 가장 먼저 받아보실 수 있습니다.<br>
+      구독은 무료이며, 언제든 해지하실 수 있습니다.
     </p>
   </div>
-  <a href="index.html#contact" class="btn-primary">
-    무료 상담 신청
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M5 12h14M12 5l7 7-7 7"/>
-    </svg>
-  </a>
+  <div class="cta-form">
+    <div class="cta-form-row">
+      <input class="cta-input" type="text" placeholder="성함">
+      <input class="cta-input" type="tel" placeholder="연락처 (선택)">
+    </div>
+    <input class="cta-input" type="email" placeholder="이메일 주소">
+    <button class="btn-cta-submit">인사이트 구독 신청 →</button>
+    <p class="cta-disclaimer">
+      제출하신 정보는 인사이트 발송 외 다른 목적으로 사용되지 않습니다.<br>
+      개인정보 처리방침에 동의하는 것으로 간주합니다.
+    </p>
+  </div>
 </section>
 
 <!-- FOOTER -->
