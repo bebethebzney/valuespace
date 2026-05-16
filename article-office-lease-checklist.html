@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오피스 임대차 계약 시 확인해야 할 5가지 — 가치공간</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0d1b2a; --navy-mid: #1a2e42; --navy-light: #243b55;
+      --gold: #c9a84c; --gold-light: #e2c47a; --gold-pale: #f5edd9;
+      --cream: #f9f5ee; --white: #ffffff; --gray-light: #f0ece4;
+      --text-dark: #1a1a1a; --text-mid: #4a4540; --text-muted: #8a8078;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--text-dark); background: var(--white); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 240px; height: 72px; background: rgba(13,27,42,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(201,168,76,0.2); }
+    .logo { display: flex; flex-direction: column; gap: 1px; text-decoration: none; }
+    .logo-en { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 18px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; }
+    .logo-ko { font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); }
+    .nav-links { display: flex; list-style: none; gap: 40px; align-items: center; }
+    .nav-links a { text-decoration: none; color: rgba(255,255,255,0.75); font-size: 13px; letter-spacing: 0.05em; transition: color 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+    .nav-cta { padding: 9px 22px; border: 1px solid var(--gold); color: var(--gold) !important; border-radius: 2px; font-size: 12px !important; letter-spacing: 0.1em !important; transition: all 0.3s !important; display: inline-flex !important; align-items: center !important; overflow: hidden !important; }
+    .nav-cta .cta-arrow { display: inline-block; max-width: 0; overflow: hidden; opacity: 0; transition: max-width 0.35s ease, opacity 0.3s ease, margin-left 0.3s ease; white-space: nowrap; }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--navy) !important; }
+    .nav-cta:hover .cta-arrow { max-width: 20px; opacity: 1; margin-left: 7px; }
+
+    /* ARTICLE HERO */
+    .article-hero { position: relative; height: 500px; overflow: hidden; display: flex; align-items: flex-end; margin-top: 72px; }
+    .article-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.55) 35%, rgba(0,0,0,0.15) 65%, transparent 100%); }
+    .article-hero-content { position: relative; z-index: 1; padding: 0 240px 52px; width: 100%; }
+    .article-breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+    .article-breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .article-breadcrumb a:hover { color: var(--gold); }
+    .article-breadcrumb-sep { color: rgba(255,255,255,0.25); }
+    .article-tag { display: inline-flex; align-items: center; padding: 5px 14px; border: 1px solid var(--gold); color: var(--gold); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; border-radius: 1px; margin-bottom: 16px; }
+    .article-hero-title { font-family: 'Noto Serif KR', serif; font-size: clamp(24px, 3vw, 38px); font-weight: 400; color: var(--white); line-height: 1.45; letter-spacing: -0.02em; max-width: 760px; }
+
+    /* META BAR */
+    .article-meta-bar { background: var(--cream); border-bottom: 1px solid rgba(201,168,76,0.2); padding: 0 240px; display: flex; align-items: center; gap: 24px; height: 52px; }
+    .meta-category { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .meta-sep { width: 1px; height: 14px; background: rgba(201,168,76,0.3); }
+    .meta-date, .meta-readtime { font-size: 12px; color: var(--text-muted); }
+
+    /* ARTICLE LAYOUT */
+    .article-layout { display: grid; grid-template-columns: 1fr 300px; gap: 80px; padding: 72px 240px 96px; background: var(--white); }
+
+    /* ARTICLE BODY */
+    .article-body { min-width: 0; }
+    .article-lead { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 300; line-height: 1.85; color: var(--text-mid); margin-bottom: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(201,168,76,0.2); letter-spacing: -0.01em; }
+    .article-body h2 { font-family: 'Noto Serif KR', serif; font-size: 22px; font-weight: 400; color: var(--navy); line-height: 1.5; margin: 52px 0 20px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 14px; }
+    .article-body h2::before { content: ''; display: block; width: 3px; height: 22px; background: var(--gold); flex-shrink: 0; }
+    .article-body h3 { font-family: 'Noto Serif KR', serif; font-size: 17px; font-weight: 400; color: var(--navy); margin: 32px 0 12px; letter-spacing: -0.01em; }
+    .article-body p { font-size: 15px; line-height: 2.1; color: var(--text-dark); margin-bottom: 22px; font-weight: 300; }
+    .article-body ul, .article-body ol { margin: 0 0 24px 0; padding-left: 0; list-style: none; }
+    .article-body li { font-size: 15px; line-height: 1.9; color: var(--text-dark); margin-bottom: 10px; padding-left: 20px; position: relative; font-weight: 300; }
+    .article-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-size: 12px; top: 4px; }
+    .article-body ol { counter-reset: item; }
+    .article-body ol li { counter-increment: item; }
+    .article-body ol li::before { content: counter(item) '.'; position: absolute; left: 0; color: var(--gold); font-size: 13px; font-weight: 500; top: 2px; }
+    .article-blockquote { margin: 36px 0; padding: 24px 32px; border-left: 3px solid var(--gold); background: var(--cream); }
+    .article-blockquote p { font-family: 'Noto Serif KR', serif; font-size: 16px; font-style: italic; line-height: 1.85; color: var(--text-mid); margin: 0; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 36px 0; background: rgba(201,168,76,0.15); }
+    .stat-box { background: var(--navy); padding: 28px 24px; }
+    .stat-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
+    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--gold); letter-spacing: -0.01em; line-height: 1; margin-bottom: 6px; }
+    .stat-desc { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+    .checklist { margin: 24px 0; }
+    .checklist-item { display: flex; gap: 20px; padding: 24px 0; border-bottom: 1px solid rgba(201,168,76,0.12); }
+    .checklist-item:first-child { border-top: 1px solid rgba(201,168,76,0.12); }
+    .checklist-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--gold); line-height: 1; flex-shrink: 0; width: 36px; }
+    .checklist-content h3 { font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 400; color: var(--navy); margin-bottom: 8px; }
+    .checklist-content p { font-size: 14px; line-height: 1.9; color: var(--text-muted); margin: 0; font-weight: 300; }
+    .article-back { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.1em; color: var(--text-muted); text-decoration: none; margin-bottom: 48px; transition: color 0.2s; }
+    .article-back:hover { color: var(--gold); }
+    .article-back svg { transition: transform 0.2s; }
+    .article-back:hover svg { transform: translateX(-3px); }
+
+    /* SIDEBAR */
+    .article-sidebar { position: sticky; top: 100px; align-self: start; display: flex; flex-direction: column; gap: 32px; }
+    .sidebar-card { border: 1px solid rgba(201,168,76,0.2); padding: 28px; background: var(--white); }
+    .sidebar-card-title { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .sidebar-card-title::before { content: ''; width: 16px; height: 1px; background: var(--gold); }
+    .author-name { font-family: 'Noto Serif KR', serif; font-size: 15px; color: var(--navy); margin-bottom: 4px; }
+    .author-role { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+    .author-bio { font-size: 13px; line-height: 1.8; color: var(--text-muted); font-weight: 300; }
+    .toc-list { list-style: none; }
+    .toc-item { padding: 9px 0; border-bottom: 1px solid rgba(201,168,76,0.1); }
+    .toc-item:last-child { border-bottom: none; }
+    .toc-link { font-size: 13px; color: var(--text-muted); text-decoration: none; line-height: 1.5; transition: color 0.2s; display: block; }
+    .toc-link:hover { color: var(--navy); }
+    .sidebar-consult { background: var(--navy); padding: 28px; position: relative; overflow: hidden; }
+    .sidebar-consult::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px); background-size: 40px 40px; }
+    .sidebar-consult > * { position: relative; z-index: 1; }
+    .sidebar-consult-title { font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 400; color: var(--white); line-height: 1.55; margin-bottom: 10px; }
+    .sidebar-consult-desc { font-size: 12px; line-height: 1.8; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+    .btn-consult { display: block; text-align: center; padding: 13px 20px; background: var(--gold); color: var(--navy); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; border-radius: 2px; transition: background 0.3s; }
+    .btn-consult:hover { background: var(--gold-light); }
+
+    /* CTA BANNER */
+    .cta-banner { background: var(--navy); padding: 80px 240px; display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: center; border-top: 1px solid rgba(201,168,76,0.15); position: relative; overflow: hidden; }
+    .cta-banner::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px); background-size: 60px 60px; }
+    .cta-banner > * { position: relative; z-index: 1; }
+    .cta-banner-title { font-family: 'Noto Serif KR', serif; font-size: clamp(22px, 2.4vw, 30px); font-weight: 400; color: var(--white); line-height: 1.55; margin-bottom: 10px; letter-spacing: -0.02em; }
+    .cta-banner-desc { font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.5); }
+    .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: var(--gold); color: var(--navy); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; border-radius: 2px; transition: all 0.3s; white-space: nowrap; border: none; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer { background: #080e14; padding: 64px 240px 32px; }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 48px; border-bottom: 1px solid rgba(201,168,76,0.15); margin-bottom: 32px; }
+    .footer-brand .f-logo-en { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 20px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; display: block; margin-bottom: 4px; }
+    .footer-brand .f-logo-ko { font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); display: block; margin-bottom: 20px; }
+    .footer-brand p { font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.4); }
+    .footer-col h4 { font-size: 11px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--gold-light); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; }
+    .footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.3s; }
+    .footer-bottom a:hover { color: var(--gold); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      nav, .article-hero-content, .article-meta-bar, .article-layout, .cta-banner, footer { padding-left: 48px; padding-right: 48px; }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .article-hero-content { padding: 0 24px 40px; }
+      .article-meta-bar { padding: 0 24px; }
+      .article-layout { grid-template-columns: 1fr; padding: 48px 24px 72px; gap: 48px; }
+      .article-sidebar { position: static; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .cta-banner { padding: 60px 24px; grid-template-columns: 1fr; gap: 32px; }
+      footer { padding: 48px 24px 28px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <span class="logo-en">Valuespace</span>
+    <span class="logo-ko">가치공간 부동산자산관리</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">서비스</a></li>
+    <li><a href="index.html#about">회사 소개</a></li>
+    <li><a href="insights.html" class="active">부동산 인사이트</a></li>
+    <li><a href="investment-reports.html">투자 리포트</a></li>
+    <li><a href="index.html#contact" class="nav-cta">상담 신청<span class="cta-arrow">→</span></a></li>
+  </ul>
+</nav>
+
+<section class="article-hero">
+  <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&h=900&fit=crop&q=80" alt="오피스 임대차 계약 시 확인해야 할 5가지">
+  <div class="article-hero-overlay"></div>
+  <div class="article-hero-content">
+    <div class="article-breadcrumb">
+      <a href="index.html">홈</a>
+      <span class="article-breadcrumb-sep">/</span>
+      <a href="insights.html">부동산 인사이트</a>
+      <span class="article-breadcrumb-sep">/</span>
+      <span>상가/사무실</span>
+    </div>
+    <div class="article-tag">상가/사무실</div>
+    <h1 class="article-hero-title">오피스 임대차 계약 시 확인해야 할 5가지</h1>
+  </div>
+</section>
+
+<div class="article-meta-bar">
+  <span class="meta-category">상가/사무실</span>
+  <div class="meta-sep"></div>
+  <span class="meta-date">2026년 5월 10일</span>
+  <div class="meta-sep"></div>
+  <span class="meta-readtime">약 6분</span>
+</div>
+
+<div class="article-layout">
+  <main class="article-body">
+    <a href="insights.html" class="article-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      목록으로 돌아가기
+    </a>
+
+    <p class="article-lead">오피스 임대차 계약은 주거 임대차와 다른 규칙이 적용됩니다. 임차인을 보호하는 법적 장치가 상대적으로 약하고, 관행상 임대인에게 유리한 조항이 표준처럼 굳어진 경우도 많습니다. 계약서 한 줄이 수천만 원의 분쟁으로 이어질 수 있습니다. 5가지 핵심 체크포인트를 반드시 확인하십시오.</p>
+
+    <div class="checklist">
+      <div class="checklist-item">
+        <div class="checklist-num">01</div>
+        <div class="checklist-content">
+          <h3>관리비에 무엇이 포함되는지 반드시 명시 받아야 합니다</h3>
+          <p>오피스 임대 분쟁의 가장 흔한 원인은 관리비입니다. '관리비 일체 포함'이라는 문구는 의미가 없습니다. 전기, 수도, 가스, 청소, 주차, 경비, 승강기 유지비 항목을 개별적으로 나열하고, 각 항목의 산정 기준(실비 정산 vs 정액)을 명시해야 합니다. 특히 냉난방비는 별도 정산이 일반적이며, 이 부분을 확인하지 않으면 겨울·여름철 예상치 못한 추가 비용이 발생합니다.</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">02</div>
+        <div class="checklist-content">
+          <h3>'원상복구'의 범위를 구체적으로 문서화해야 합니다</h3>
+          <p>계약 종료 시 원상복구 의무는 대부분의 오피스 계약에 포함됩니다. 문제는 '원상'이 어느 시점을 기준으로 하는지가 불분명할 때입니다. 임차인이 인테리어 공사를 한 경우, 입주 당시 상태로 복구해야 하는지, 아니면 뼈대만 남겨야 하는지에 따라 비용 차이가 수천만 원에 달할 수 있습니다. 계약서에 복구 범위와 최대 비용 한도를 명기하고, 입주 시 현장 사진을 반드시 확보하십시오.</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">03</div>
+        <div class="checklist-content">
+          <h3>인테리어 공사 권리와 임대인 동의 조건을 확인하세요</h3>
+          <p>임차인이 업무 공간에 맞는 인테리어나 시설 개선을 하려면 임대인의 동의가 필요한 경우가 많습니다. 계약서에 사전 서면 동의 절차를 어떻게 밟는지, 공사 완료 후 소유권은 누구에게 귀속되는지를 명시해야 합니다. 일부 임대인은 '임차인이 설치한 시설은 임대인 소유'로 간주하는 조항을 삽입하는 경우가 있으니 유의하십시오.</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">04</div>
+        <div class="checklist-content">
+          <h3>중도 해지 시의 조건과 위약금을 반드시 확인하세요</h3>
+          <p>사업 상황 변화로 계약 기간 중 중도 해지가 필요해질 수 있습니다. 이때 위약금 구조가 명확하지 않으면 잔여 임대료 전액 청구 등 과도한 부담을 질 수 있습니다. 일반적으로 3~6개월치 임대료를 위약금으로 하는 구조가 합리적이며, 임대인의 계약 해지 조건(재건축, 자가 사용 등)도 함께 확인하십시오.</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">05</div>
+        <div class="checklist-content">
+          <h3>계약 만료 후 실제 퇴거까지의 일정을 확인하세요</h3>
+          <p>계약 만료 후 이사 준비에 필요한 현실적인 시간을 계약서에 확보해야 합니다. 통상 1~2개월의 명도 유예 기간을 사전에 합의해두는 것이 좋습니다. 또한 건물 인도 조건(청소 상태, 비품 제거 여부, 열쇠 반납 방법 등)도 구체적으로 명시해야 퇴거 후 분쟁을 방지할 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>계약 전 전문가 검토를 권고하는 이유</h2>
+    <p>위 5가지는 빈번하게 분쟁이 생기는 항목만을 추린 것입니다. 실제 오피스 임대차 계약서에는 임차인에게 불리한 조항이 표준처럼 포함된 경우가 많으며, 법률 지식 없이 서명하면 나중에 되돌리기 어렵습니다.</p>
+    <p>가치공간은 임대차 계약 검토와 조건 협상을 전문적으로 지원합니다. 계약서 검토만으로도 잠재적인 손실을 크게 줄일 수 있습니다.</p>
+  </main>
+
+  <aside class="article-sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">작성자</div>
+      <div class="author-name">가치공간 편집팀</div>
+      <div class="author-role">부동산자산관리 전문가</div>
+      <div class="author-bio">상가·오피스 전문 부동산 자산관리 법인 가치공간의 전문가 팀이 작성합니다.</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">목차</div>
+      <ul class="toc-list">
+        <li class="toc-item"><a href="#" class="toc-link">관리비 항목의 명확한 구분</a></li>
+        <li class="toc-item"><a href="#" class="toc-link">원상복구 범위와 비용 한도</a></li>
+        <li class="toc-item"><a href="#" class="toc-link">임차인 시설 개선 권리</a></li>
+        <li class="toc-item"><a href="#" class="toc-link">계약 해지 조건과 위약금</a></li>
+        <li class="toc-item"><a href="#" class="toc-link">명도 기간과 인도 상태</a></li>
+        <li class="toc-item"><a href="#" class="toc-link">계약 전 전문가 검토의 중요성</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-consult">
+      <div class="sidebar-consult-title">계약서 검토가 필요하신가요?</div>
+      <div class="sidebar-consult-desc">가치공간의 전문가가 임대차 계약 조건을 꼼꼼히 검토해 드립니다. 초기 상담은 무료입니다.</div>
+      <a href="index.html#contact" class="btn-consult">무료 상담 신청</a>
+    </div>
+  </aside>
+</div>
+
+<section class="cta-banner">
+  <div>
+    <h2 class="cta-banner-title">인사이트를 실전에 적용하고 싶으시다면<br>전문가와 직접 상담하세요</h2>
+    <p class="cta-banner-desc">분석 내용을 바탕으로 내 자산에 맞는 전략을 수립해 드립니다.<br>초기 상담은 무료입니다.</p>
+  </div>
+  <a href="index.html#contact" class="btn-primary">무료 상담 신청 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="f-logo-en">Valuespace</span>
+      <span class="f-logo-ko">가치공간 부동산자산관리 (주)</span>
+      <p>상가·오피스 전문 부동산 자산관리 법인.<br>고객의 자산이 최적의 가치를 유지하고<br>성장할 수 있도록 함께합니다.</p>
+    </div>
+    <div class="footer-col">
+      <h4>서비스</h4>
+      <ul>
+        <li><a href="#">상가 임대관리</a></li>
+        <li><a href="#">오피스 임대관리</a></li>
+        <li><a href="#">자산가치 컨설팅</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>콘텐츠</h4>
+      <ul>
+        <li><a href="insights.html">부동산 인사이트</a></li>
+        <li><a href="investment-reports.html">투자 리포트</a></li>
+        <li><a href="#">개인정보 처리방침</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>연락처</h4>
+      <ul>
+        <li><a href="tel:01034202767">010-3420-2767</a></li>
+        <li><a href="mailto:neo.vspace@gmail.com">neo.vspace@gmail.com</a></li>
+        <li><a href="#">수원시 영통구 광교중앙로 170</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 가치공간 부동산자산관리 (주). All rights reserved.</p>
+    <a href="#">개인정보 처리방침</a>
+  </div>
+</footer>
+
+</body>
+</html>
