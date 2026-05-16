@@ -142,6 +142,29 @@
       footer { padding: 48px 24px 28px; }
       .footer-top { grid-template-columns: 1fr 1fr; }
     }
+  
+  /* ── RELATED ARTICLES ── */
+  .related-articles { background: var(--cream); padding: 80px 240px; border-top: 1px solid rgba(201,168,76,0.15); }
+  .related-eyebrow { font-size: 11px; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+  .related-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+  .related-title { font-family: 'Noto Serif KR', serif; font-size: clamp(20px, 2.2vw, 26px); font-weight: 400; color: var(--navy); margin-bottom: 40px; letter-spacing: -0.02em; }
+  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(201,168,76,0.15); }
+  .related-card { background: var(--white); text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: background 0.3s; }
+  .related-card:hover { background: var(--gold-pale); }
+  .related-card-img { position: relative; height: 200px; overflow: hidden; }
+  .related-card-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .related-card:hover .related-card-img img { transform: scale(1.04); }
+  .related-card-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.20) 50%, transparent 80%); z-index: 1; }
+  .related-card-body { padding: 24px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+  .related-card-cat { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .related-card-title { font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 400; color: var(--navy); line-height: 1.6; margin-bottom: auto; padding-bottom: 16px; letter-spacing: -0.01em; }
+  .related-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(201,168,76,0.15); }
+  .related-card-date { font-size: 11px; color: var(--text-muted); }
+  .related-card-arrow { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.1em; color: var(--gold); transition: gap 0.2s; }
+  .related-card:hover .related-card-arrow { gap: 10px; }
+  @media (max-width: 1100px) { .related-articles { padding-left: 48px; padding-right: 48px; } }
+  @media (max-width: 900px) { .related-articles { padding: 60px 24px; } .related-grid { grid-template-columns: 1fr; } }
+
   </style>
 </head>
 <body>
@@ -152,11 +175,10 @@
     <span class="logo-ko">가치공간 부동산자산관리</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html#services">서비스</a></li>
-    <li><a href="index.html#about">회사 소개</a></li>
+    <li><a href="index.html">홈</a></li>
     <li><a href="insights.html" class="active">부동산 인사이트</a></li>
     <li><a href="investment-reports.html">투자 리포트</a></li>
-    <li><a href="index.html#contact" class="nav-cta">상담 신청<span class="cta-arrow">→</span></a></li>
+    <li><a href="index.html#contact" class="nav-cta">문의하기<span class="cta-arrow">→</span></a></li>
   </ul>
 </nav>
 
