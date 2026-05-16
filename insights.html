@@ -126,12 +126,13 @@
     right: 0;
     top: 0;
     bottom: 0;
-    width: 56%;
+    width: 44%;
     pointer-events: none;
     display: flex;
     align-items: flex-end;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%);
-    mask-image: linear-gradient(to right, transparent 0%, black 22%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+    mask-image: linear-gradient(to right, transparent 0%, black 30%);
+    opacity: 0.7;
   }
   .hero-city-deco svg { width: 100%; height: auto; }
   .page-hero-inner {
@@ -628,77 +629,61 @@
 
   /* ── CTA BANNER ── */
   .cta-banner {
-    background: var(--navy);
+    background: var(--cream);
     padding: 80px 240px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
     align-items: center;
-    border-top: 1px solid rgba(201,168,76,0.15);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    position: relative;
+    overflow: hidden;
   }
-  .cta-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
   }
-  .cta-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+  .cta-banner > * { position: relative; z-index: 1; }
   .cta-banner-title {
     font-family: 'Noto Serif KR', serif;
-    font-size: clamp(24px, 2.6vw, 34px);
+    font-size: clamp(22px, 2.4vw, 30px);
     font-weight: 400;
-    color: var(--white);
-    line-height: 1.42;
-    margin-bottom: 16px;
+    color: var(--navy);
+    line-height: 1.55;
+    margin-bottom: 10px;
     letter-spacing: -0.02em;
   }
-  .cta-banner-title em { font-style: normal; color: var(--gold-light); }
   .cta-banner-desc {
     font-size: 14px;
     line-height: 1.85;
-    color: rgba(255,255,255,0.45);
+    color: var(--text-muted);
   }
-  .cta-form { display: flex; flex-direction: column; gap: 12px; }
-  .cta-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .cta-input {
-    width: 100%;
-    padding: 14px 16px;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(201,168,76,0.2);
-    color: var(--white);
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    outline: none;
-    transition: border-color 0.25s, background 0.25s;
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--navy);
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     border-radius: 2px;
-    letter-spacing: 0.02em;
+    transition: all 0.3s;
+    white-space: nowrap;
+    border: 1px solid rgba(201,168,76,0.3);
   }
-  .cta-input::placeholder { color: rgba(255,255,255,0.3); }
-  .cta-input:focus { border-color: rgba(201,168,76,0.5); background: rgba(255,255,255,0.1); }
-  .btn-cta-submit {
-    width: 100%;
-    padding: 16px;
+  .btn-primary:hover {
     background: var(--gold);
     color: var(--navy);
-    border: none;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: background 0.3s;
-    border-radius: 2px;
-  }
-  .btn-cta-submit:hover { background: var(--gold-light); }
-  .cta-disclaimer {
-    font-size: 11px;
-    color: rgba(255,255,255,0.28);
-    line-height: 1.75;
+    border-color: var(--gold);
+    transform: translateY(-2px);
   }
 
   /* ── FOOTER ── */
@@ -804,8 +789,7 @@
     .articles-header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .articles-featured-row { grid-template-columns: 1fr; }
     .articles-grid { grid-template-columns: 1fr; }
-    .cta-banner { padding: 60px 24px; grid-template-columns: 1fr; gap: 40px; }
-    .cta-form-row { grid-template-columns: 1fr; }
+    .cta-banner { padding: 60px 24px; grid-template-columns: 1fr; gap: 32px; }
     footer { padding: 48px 24px 28px; }
     .footer-top { grid-template-columns: 1fr 1fr; }
   }
@@ -844,10 +828,10 @@
     <svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <pattern id="dotFg" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.58)"/>
+          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.28)"/>
         </pattern>
         <pattern id="dotBg" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.17)"/>
+          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.09)"/>
         </pattern>
         <mask id="cityFg">
           <rect width="560" height="380" fill="black"/>
@@ -1031,29 +1015,20 @@
 <!-- CTA BANNER -->
 <section class="cta-banner">
   <div>
-    <p class="cta-eyebrow">인사이트 알림 신청</p>
     <h2 class="cta-banner-title">
-      새 글이 발행되면<br>
-      <em>이메일로 바로 받아보세요</em>
+      인사이트를 실전에 적용하고 싶으시다면<br>전문가와 직접 상담하세요
     </h2>
     <p class="cta-banner-desc">
-      매월 발행되는 시장 분석 인사이트와<br>
-      임시 발행 지역·테마 글을 가장 먼저 받아보실 수 있습니다.<br>
-      구독은 무료이며, 언제든 해지하실 수 있습니다.
+      분석 내용을 바탕으로 내 자산에 맞는 전략을 수립해 드립니다.<br>
+      초기 상담은 무료입니다.
     </p>
   </div>
-  <div class="cta-form">
-    <div class="cta-form-row">
-      <input class="cta-input" type="text" placeholder="성함">
-      <input class="cta-input" type="tel" placeholder="연락처 (선택)">
-    </div>
-    <input class="cta-input" type="email" placeholder="이메일 주소">
-    <button class="btn-cta-submit">인사이트 구독 신청 →</button>
-    <p class="cta-disclaimer">
-      제출하신 정보는 인사이트 발송 외 다른 목적으로 사용되지 않습니다.<br>
-      개인정보 처리방침에 동의하는 것으로 간주합니다.
-    </p>
-  </div>
+  <a href="index.html#contact" class="btn-primary">
+    무료 상담 신청
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </a>
 </section>
 
 <!-- FOOTER -->
