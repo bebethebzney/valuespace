@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>투자 리포트 — 가치공간 부동산자산관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1a2e42;
+    --navy-light: #243b55;
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --gold-pale: #f5edd9;
+    --cream: #f9f5ee;
+    --white: #ffffff;
+    --gray-light: #f0ece4;
+    --gray-mid: #9a9080;
+    --text-dark: #1a1a1a;
+    --text-mid: #4a4540;
+    --text-muted: #8a8078;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    color: var(--text-dark);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 240px;
+    height: 72px;
+    background: rgba(13, 27, 42, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    text-decoration: none;
+  }
+  .logo-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .logo-ko {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+    align-items: center;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--gold-light); }
+
+  .nav-cta {
+    padding: 9px 22px;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    border-radius: 2px;
+    font-size: 12px !important;
+    letter-spacing: 0.1em !important;
+    transition: all 0.3s !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+  }
+  .nav-cta .cta-arrow {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-width 0.35s ease, opacity 0.3s ease, margin-left 0.3s ease;
+    white-space: nowrap;
+  }
+  .nav-cta:hover {
+    background: var(--gold) !important;
+    color: var(--navy) !important;
+  }
+  .nav-cta:hover .cta-arrow {
+    max-width: 20px;
+    opacity: 1;
+    margin-left: 7px;
+  }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    background: var(--navy);
+    padding: 160px 240px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+  }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .page-hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .page-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 60px);
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .page-hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .page-hero-title-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 300;
+    font-size: clamp(18px, 2.2vw, 24px);
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .page-hero-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.5);
+    max-width: 460px;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    background: var(--cream);
+    padding: 28px 240px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: sticky;
+    top: 72px;
+    z-index: 50;
+  }
+  .filter-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .filter-btn {
+    padding: 7px 18px;
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover {
+    border-color: var(--gold);
+    color: var(--navy);
+  }
+  .filter-btn.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--gold);
+  }
+
+  /* ── FEATURED REPORT ── */
+  .featured-section {
+    background: var(--white);
+    padding: 80px 240px 64px;
+  }
+  .featured-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .featured-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.15);
+    overflow: hidden;
+  }
+  .featured-thumb {
+    position: relative;
+    min-height: 380px;
+    background: var(--navy-light);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .featured-thumb-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .featured-thumb-icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .featured-thumb-icon svg {
+    color: rgba(201,168,76,0.3);
+    width: 80px;
+    height: 80px;
+  }
+  .featured-thumb-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: rgba(201,168,76,0.5);
+    text-transform: uppercase;
+  }
+  .report-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 1px;
+  }
+  .featured-content {
+    padding: 56px 56px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .featured-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .featured-date {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+  }
+  .featured-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  .featured-summary {
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 40px;
+  }
+  .featured-footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+  .featured-pages {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: var(--gold);
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-primary svg { transition: transform 0.3s; }
+  .btn-primary:hover svg { transform: translateX(3px); }
+
+  .btn-outline-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .btn-outline-gold:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .btn-outline-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .btn-outline-dark:hover {
+    border-color: var(--gold);
+    color: var(--navy);
+    background: var(--gold-pale);
+  }
+
+  /* ── REPORTS GRID ── */
+  .reports-section {
+    background: var(--cream);
+    padding: 72px 240px 96px;
+  }
+  .reports-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.6vw, 32px);
+    color: var(--navy);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+  .reports-count {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    padding-bottom: 4px;
+  }
+
+  .reports-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(201,168,76,0.15);
+  }
+
+  .report-card {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .report-card:hover { background: var(--gold-pale); }
+
+  .report-thumb {
+    position: relative;
+    height: 200px;
+    background: var(--navy);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .report-thumb-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    transition: opacity 0.3s;
+  }
+  .report-card:hover .report-thumb-pattern { opacity: 1.5; }
+
+  .report-thumb-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .report-thumb-inner svg {
+    color: rgba(201,168,76,0.4);
+    transition: color 0.3s;
+  }
+  .report-card:hover .report-thumb-inner svg { color: rgba(201,168,76,0.7); }
+  .report-thumb-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: rgba(201,168,76,0.4);
+    text-transform: uppercase;
+  }
+
+  .report-body {
+    padding: 28px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .report-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .report-category {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 3px 10px;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 1px;
+  }
+  .report-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .report-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.55;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    flex: 1;
+  }
+  .report-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  .report-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    margin-top: auto;
+  }
+  .report-pages {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .report-dl {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+  .report-card:hover .report-dl { gap: 10px; }
+
+  /* ── PAGINATION ── */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 64px;
+  }
+  .page-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px;
+    background: transparent;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.25s;
+  }
+  .page-btn:hover {
+    border-color: var(--gold);
+    color: var(--navy);
+  }
+  .page-btn.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--gold);
+  }
+  .page-btn-arrow {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .page-btn-arrow:hover {
+    border-color: var(--gold);
+    color: var(--navy);
+  }
+
+  /* ── NEWSLETTER ── */
+  .newsletter-section {
+    background: var(--navy);
+    padding: 80px 240px;
+    position: relative;
+    overflow: hidden;
+  }
+  .newsletter-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .newsletter-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .newsletter-left .section-eyebrow { color: var(--gold); }
+  .newsletter-left .section-eyebrow::before { background: var(--gold); }
+  .newsletter-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.55;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .newsletter-title strong {
+    color: var(--gold-light);
+    font-weight: 400;
+  }
+  .newsletter-desc {
+    font-size: 14px;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.5);
+  }
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .newsletter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .nl-input {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+    color: var(--white);
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .nl-input::placeholder { color: rgba(255,255,255,0.3); }
+  .nl-input:focus { border-color: var(--gold); }
+  .nl-submit {
+    width: 100%;
+    padding: 15px;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .nl-submit:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+  .nl-notice {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.03em;
+    line-height: 1.7;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080e14;
+    padding: 64px 240px 32px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    margin-bottom: 32px;
+  }
+  .footer-brand .logo-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 20px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .footer-brand .logo-ko {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.5);
+    display: block;
+    margin-bottom: 20px;
+  }
+  .footer-brand p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-col h4 {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-bottom p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.05em;
+  }
+  .footer-bottom a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-bottom a:hover { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.35s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1100px) {
+    nav, .page-hero, .filter-bar, .featured-section,
+    .reports-section, .newsletter-section, footer {
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+    .newsletter-inner { gap: 48px; }
+  }
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .page-hero { padding: 140px 24px 64px; }
+    .filter-bar { padding: 20px 24px; overflow-x: auto; flex-wrap: nowrap; }
+    .featured-section { padding: 60px 24px 48px; }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-thumb { min-height: 220px; }
+    .featured-content { padding: 36px 32px; }
+    .reports-section { padding: 56px 24px 72px; }
+    .reports-section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .reports-grid { grid-template-columns: 1fr; }
+    .newsletter-section { padding: 64px 24px; }
+    .newsletter-inner { grid-template-columns: 1fr; gap: 40px; }
+    .newsletter-row { grid-template-columns: 1fr; }
+    footer { padding: 48px 24px 28px; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <span class="logo-en">Valuespace</span>
+    <span class="logo-ko">가치공간 부동산자산관리</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">홈</a></li>
+    <li><a href="insights.html">부동산 인사이트</a></li>
+    <li><a href="investment-reports.html" class="active">투자 리포트</a></li>
+    <li><a href="index.html#contact" class="nav-cta">문의하기<span class="cta-arrow">→</span></a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-eyebrow fade-up">Investment Reports</p>
+    <h1 class="page-hero-title fade-up delay-1"><em>투자 리포트</em></h1>
+    <p class="page-hero-title-ko fade-up delay-2">상업용 부동산 시장의 심층 분석</p>
+    <p class="page-hero-desc fade-up delay-3">
+      가치공간의 전문가들이 직접 분석한 상가·오피스 시장 동향,<br>
+      투자 기회, 지역별 수익률 데이터를 무료로 제공합니다.
+    </p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">분류</span>
+  <button class="filter-btn active" onclick="filterReports('all', this)">전체</button>
+  <button class="filter-btn" onclick="filterReports('retail', this)">상가</button>
+  <button class="filter-btn" onclick="filterReports('office', this)">오피스</button>
+  <button class="filter-btn" onclick="filterReports('market', this)">시장분석</button>
+  <button class="filter-btn" onclick="filterReports('region', this)">지역별</button>
+  <button class="filter-btn" onclick="filterReports('yield', this)">수익률</button>
+</div>
+
+<!-- FEATURED REPORT -->
+<section class="featured-section">
+  <p class="featured-eyebrow">최신 리포트</p>
+  <div class="featured-card">
+    <div class="featured-thumb">
+      <div class="featured-thumb-pattern"></div>
+      <div class="featured-thumb-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        <span class="featured-thumb-label">2025 Q1 Report</span>
+      </div>
+    </div>
+    <div class="featured-content">
+      <div>
+        <div class="featured-meta">
+          <span class="report-tag">시장분석</span>
+          <span class="featured-date">2025년 3월 발행</span>
+        </div>
+        <h2 class="featured-title">
+          2025년 1분기 수도권 상업용 부동산<br>시장 동향 및 투자 전략 보고서
+        </h2>
+        <p class="featured-summary">
+          금리 안정화 국면에 접어든 2025년 1분기, 수도권 상가 및 오피스 시장은
+          공실률 개선과 임대료 회복세를 보이고 있습니다. 권역별 상세 데이터와
+          투자 매력도 분석, 2분기 전망을 담은 종합 보고서입니다.
+        </p>
+      </div>
+      <div class="featured-footer">
+        <span class="featured-pages">48페이지 · PDF</span>
+        <div style="display: flex; gap: 12px;">
+          <a href="#" class="btn-outline-gold">
+            미리보기
+          </a>
+          <a href="#" class="btn-primary">
+            무료 다운로드
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPORTS GRID -->
+<section class="reports-section">
+  <div class="reports-section-header">
+    <div>
+      <p class="section-eyebrow">전체 리포트</p>
+      <h2 class="section-title">축적된 분석 자료</h2>
+    </div>
+    <span class="reports-count">총 12건</span>
+  </div>
+
+  <div class="reports-grid" id="reportsGrid">
+
+    <!-- 리포트 1 -->
+    <a href="#" class="report-card" data-category="office">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <span class="report-thumb-num">2024 Q4</span>
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">오피스</span>
+          <span class="report-date">2024.12</span>
+        </div>
+        <h3 class="report-title">수도권 오피스 시장 2024년 4분기 공실률 및 임대가 동향</h3>
+        <p class="report-desc">서울 3대 권역(GBD·CBD·YBD) 공실률 변화와 임대료 추이를 분석하고 2025년 전망을 제시합니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">32페이지</span>
+          <span class="report-dl">
+            다운로드
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 리포트 2 -->
+    <a href="#" class="report-card" data-category="retail">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span class="report-thumb-num">2024 Q4</span>
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">상가</span>
+          <span class="report-date">2024.11</span>
+        </div>
+        <h3 class="report-title">경기남부 신도시 상가 투자 수익률 분석 보고서</h3>
+        <p class="report-desc">광교·동탄·판교 상권의 공실률, 평균 임대수익률, 거래 사례를 비교 분석한 지역 특화 보고서입니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">28페이지</span>
+          <span class="report-dl">
+            다운로드
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 리포트 3 -->
+    <a href="#" class="report-card" data-category="yield">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span class="report-thumb-num">2024 H2</span>
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">수익률</span>
+          <span class="report-date">2024.10</span>
+        </div>
+        <h3 class="report-title">상업용 부동산 자산유형별 투자수익률 비교 — 2024 하반기</h3>
+        <p class="report-desc">상가·오피스·물류·지식산업센터 등 주요 자산유형의 CAP Rate와 총투자수익률을 비교 정리합니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">24페이지</span>
+          <span class="report-dl">
+            다운로드
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 리포트 4 -->
+    <a href="#" class="report-card" data-category="market">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+          <span class="report-thumb-num">2024 Q3</span>
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">시장분석</span>
+          <span class="report-date">2024.09</span>
+        </div>
+        <h3 class="report-title">금리 인하 사이클과 상업용 부동산 시장 영향 분석</h3>
+        <p class="report-desc">기준금리 변화가 상업용 부동산 거래량, 캡레이트, 가격에 미치는 영향을 글로벌 사례와 비교 분석합니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">36페이지</span>
+          <span class="report-dl">
+            다운로드
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 리포트 5 -->
+    <a href="#" class="report-card" data-category="region">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span class="report-thumb-num">2024 Q3</span>
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">지역별</span>
+          <span class="report-date">2024.08</span>
+        </div>
+        <h3 class="report-title">광교신도시 상업지구 현황 및 투자 가치 분석</h3>
+        <p class="report-desc">광교 상업지구 내 권역별 공실 현황, 임대사례, 향후 공급계획을 토대로 한 투자 적기 분석 보고서입니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">20페이지</span>
+          <span class="report-dl">
+            다운로드
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 리포트 6 -->
+    <a href="#" class="report-card" data-category="office">
+      <div class="report-thumb">
+        <div class="report-thumb-pattern"></div>
+        <div class="report-thumb-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+          <span class="report-thumb-num">2024 Q2</span>
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="report-meta">
+          <span class="report-category">오피스</span>
+          <span class="report-date">2024.06</span>
+        </div>
+        <h3 class="report-title">중소형 오피스 임대 수요 변화와 공유오피스 시장 영향</h3>
+        <p class="report-desc">재택·하이브리드 근무 확산에 따른 오피스 수요 구조 변화와 전통 임대시장에 대한 영향을 심층 분석합니다.</p>
+        <div class="report-footer">
+          <span class="report-pages">30페이지</span>
+          <span class="report-dl">
+            다운로드
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+    <button class="page-btn-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    <button class="page-btn active">1</button>
+    <button class="page-btn">2</button>
+    <button class="page-btn-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- NEWSLETTER / CTA -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="newsletter-left">
+      <p class="section-eyebrow">리포트 알림 신청</p>
+      <h2 class="newsletter-title">
+        새 리포트 발행 시<br><strong>이메일로 바로 받아보세요</strong>
+      </h2>
+      <p class="newsletter-desc">
+        매월 발행되는 시장 분석 리포트와<br>
+        임시 발행 지역·테마 리포트를 가장 먼저 받아보실 수 있습니다.<br>
+        구독은 무료이며, 언제든 해지하실 수 있습니다.
+      </p>
+    </div>
+    <div>
+      <form class="newsletter-form" onsubmit="return false;">
+        <div class="newsletter-row">
+          <input type="text" class="nl-input" placeholder="성함">
+          <input type="tel" class="nl-input" placeholder="연락처 (선택)">
+        </div>
+        <input type="email" class="nl-input" placeholder="이메일 주소">
+        <button class="nl-submit">리포트 구독 신청 →</button>
+        <p class="nl-notice">
+          제출하신 정보는 리포트 발송 외 다른 목적으로 사용되지 않습니다.<br>
+          개인정보 처리방침에 동의하는 것으로 간주됩니다.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-en">Valuespace</span>
+      <span class="logo-ko">가치공간 부동산자산관리 (주)</span>
+      <p>상가·오피스 전문 부동산 자산관리 법인.<br>고객의 자산이 최적의 가치를 유지하고<br>성장할 수 있도록 함께합니다.</p>
+    </div>
+    <div class="footer-col">
+      <h4>서비스</h4>
+      <ul>
+        <li><a href="#">상가 임대관리</a></li>
+        <li><a href="#">오피스 임대관리</a></li>
+        <li><a href="#">자산가치 컨설팅</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>콘텐츠</h4>
+      <ul>
+        <li><a href="insights.html">부동산 인사이트</a></li>
+        <li><a href="investment-reports.html">투자 리포트</a></li>
+        <li><a href="#">개인정보 처리방침</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>연락처</h4>
+      <ul>
+        <li><a href="tel:01034202767">010-3420-2767</a></li>
+        <li><a href="mailto:neo.vspace@gmail.com">neo.vspace@gmail.com</a></li>
+        <li><a href="#">수원시 영통구 광교중앙로 170</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 가치공간 부동산자산관리 (주). All rights reserved.</p>
+    <a href="#">개인정보 처리방침</a>
+  </div>
+</footer>
+
+<script>
+  function filterReports(category, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const cards = document.querySelectorAll('#reportsGrid .report-card');
+    cards.forEach(card => {
+      if (category === 'all' || card.dataset.category === category) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
