@@ -842,57 +842,52 @@
 <!-- FILTER BAR -->
 <div class="filter-bar">
   <button class="filter-tab active" onclick="filterArticles('all', this)">전체</button>
-  <button class="filter-tab" onclick="filterArticles('market', this)">시장동향</button>
-  <button class="filter-tab" onclick="filterArticles('strategy', this)">임대전략</button>
-  <button class="filter-tab" onclick="filterArticles('invest', this)">투자분석</button>
-  <button class="filter-tab" onclick="filterArticles('region', this)">지역분석</button>
-  <button class="filter-tab" onclick="filterArticles('tax', this)">법률·세무</button>
-  <button class="filter-tab" onclick="filterArticles('manage', this)">자산관리</button>
+  <button class="filter-tab" onclick="filterArticles('store', this)">상가/사무실</button>
+  <button class="filter-tab" onclick="filterArticles('invest', this)">투자전략</button>
 </div>
 
 <!-- FEATURED ARTICLE -->
 <section class="featured-section">
   <p class="featured-eyebrow">에디터 추천</p>
-  <a href="#" class="featured-article">
+  <a href="https://blog.valuespace.co.kr/2026%eb%85%84-1%eb%b6%84%ea%b8%b0-%ec%83%81%ec%97%85%ec%9a%a9%eb%b6%80%eb%8f%99%ec%82%b0-%ec%8b%9c%ec%9e%a5%eb%b6%84%ec%84%9d-%ea%b0%80%ec%b9%98%ea%b3%b5%ea%b0%84/" class="featured-article" target="_blank" rel="noopener">
     <div class="featured-img">
       <div class="featured-img-pattern"></div>
       <div class="featured-img-overlay"></div>
       <div class="featured-img-icon">
         <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6">
-          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
         </svg>
       </div>
       <div class="featured-img-content">
-        <div class="article-tag">시장동향</div>
+        <div class="article-tag">상가/사무실 · 투자전략</div>
         <p class="featured-img-title">
-          2025년 상반기, 상가 공실률이<br>드디어 반등의 신호를 보이다
+          2026년 1분기 상업용부동산 시장 분석
         </p>
       </div>
     </div>
     <div class="featured-article-body">
       <div>
         <div class="article-meta">
-          <span class="article-category">시장동향</span>
+          <span class="article-category">상가/사무실 · 투자전략</span>
           <span class="meta-dot"></span>
-          <span class="article-date">2025년 4월 22일</span>
-          <span class="meta-dot"></span>
-          <span class="article-readtime">읽는 시간 8분</span>
+          <span class="article-date">2026년 5월 10일</span>
         </div>
         <h2 class="featured-article-title">
-          2025년 상반기, 상가 공실률이<br>드디어 반등의 신호를 보이다
+          2026년 1분기 상업용부동산 시장 분석
         </h2>
         <p class="featured-article-desc">
-          2022년 이후 고금리 장기화와 소비 침체로 악화 일로를 걸어온 수도권 상가 시장이
-          올해 1분기부터 뚜렷한 변화를 보이고 있습니다. 광교·동탄 등 수도권 신도시를 중심으로
-          공실률이 감소하고, 신규 임대 계약 문의가 증가하는 추세입니다. 이 변화가 일시적
-          반등인지 구조적 회복인지를 수요·공급·금리 세 가지 렌즈로 짚어봅니다.
+          2026년 1분기 상업용부동산 시장분석 결과, 오피스는 강세, 상가는 양극화되는 흐름이
+          뚜렷하게 나타났습니다. 지금 투자자는 어디를 봐야 할까? 최근 상업용부동산 시장은
+          단순히 공실률과 임대료만으로 읽히지 않습니다. 가치공간 전문가의 시선으로 2026년
+          1분기 시장 흐름을 심층 분석합니다.
         </p>
       </div>
       <div class="article-footer">
         <div class="article-author">
-          <div class="author-avatar">이</div>
-          <span class="author-name">이인석 대표</span>
+          <div class="author-avatar">V</div>
+          <span class="author-name">valuespace</span>
         </div>
         <span class="read-more">
           자세히 읽기
@@ -912,50 +907,48 @@
       <p class="section-eyebrow">전체 아티클</p>
       <h2 class="section-title">전문가의 깊이 있는 분석</h2>
     </div>
-    <span class="articles-count">총 18건</span>
+    <span class="articles-count">총 4건</span>
   </div>
 
-  <!-- 2열 큰 카드 -->
-  <div class="articles-featured-row" id="articlesTop">
+  <!-- 3열 카드 -->
+  <div class="articles-grid" id="articlesGrid">
 
-    <a href="#" class="article-card" data-category="invest">
-      <div class="card-img card-img-lg">
+    <a href="https://blog.valuespace.co.kr/%ec%83%81%ea%b0%80-%ed%88%ac%ec%9e%90-%ec%a0%81%ea%b8%b0%ec%9d%b8%ea%b0%80-2026%eb%85%84-%ec%88%98%ec%9d%b5%ed%98%95-%eb%b6%80%eb%8f%99%ec%82%b0-%ec%99%84%eb%b2%bd-%ea%b0%80%ec%9d%b4%eb%93%9c/" class="article-card" data-category="invest" target="_blank" rel="noopener">
+      <div class="card-img card-img-sm">
         <div class="card-img-pattern"></div>
         <div class="card-img-overlay"></div>
         <div class="card-img-icon">
-          <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
             <line x1="18" y1="20" x2="18" y2="10"/>
             <line x1="12" y1="20" x2="12" y2="4"/>
             <line x1="6" y1="20" x2="6" y2="14"/>
           </svg>
         </div>
         <div class="card-img-tag">
-          <span class="article-tag">투자분석</span>
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">상가/사무실 · 투자전략</span>
         </div>
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span class="card-category">투자분석</span>
+          <span class="card-category">상가/사무실 · 투자전략</span>
           <span class="card-dot"></span>
-          <span class="card-date">2025.04.10</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">6분</span>
+          <span class="card-date">2026.05.10</span>
         </div>
-        <h3 class="card-title card-title-lg">캡레이트(Cap Rate) 완전 정복 — 상업용 부동산 투자수익률을 읽는 법</h3>
-        <p class="card-desc">처음 상업용 부동산 투자를 검토하는 분들이 가장 많이 혼동하는 지표인 캡레이트. 계산법부터 현실에서의 활용까지 명쾌하게 정리합니다.</p>
+        <h3 class="card-title">상가 투자 적기인가? — 2026년 수익형 부동산 완벽 가이드</h3>
+        <p class="card-desc">상가 투자 적기인지 판단하기 위해 금리 변화와 상권 재편이 맞물린 2026년 현재 상황에서, 상가 투자의 기회와 리스크를 냉정하게 분석합니다.</p>
         <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
-          <span class="card-arrow">읽기<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-author">valuespace</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
 
-    <a href="#" class="article-card" data-category="strategy">
-      <div class="card-img card-img-lg">
+    <a href="https://blog.valuespace.co.kr/%ec%98%a4%ed%94%bc%ec%8a%a4-%ec%9e%84%eb%8c%80%ec%b0%a8-%ea%b3%84%ec%95%bd-%ec%b2%b4%ed%81%ac%ed%8f%ac%ec%9d%b8%ed%8a%b8-%ea%b0%80%ec%b9%98%ea%b3%b5%ea%b0%84/" class="article-card" data-category="store" target="_blank" rel="noopener">
+      <div class="card-img card-img-sm">
         <div class="card-img-pattern"></div>
         <div class="card-img-overlay"></div>
         <div class="card-img-icon">
-          <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/>
@@ -963,32 +956,25 @@
           </svg>
         </div>
         <div class="card-img-tag">
-          <span class="article-tag">임대전략</span>
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">상가/사무실</span>
         </div>
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span class="card-category">임대전략</span>
+          <span class="card-category">상가/사무실</span>
           <span class="card-dot"></span>
-          <span class="card-date">2025.03.28</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">7분</span>
+          <span class="card-date">2026.05.10</span>
         </div>
-        <h3 class="card-title card-title-lg">공실이 장기화될 때 건물주가 취해야 할 5가지 전략</h3>
-        <p class="card-desc">무작정 임대료를 내리는 것이 정답일까요? 공실 장기화 상황에서 자산 가치를 지키면서 임차인을 유치하는 현실적인 접근법을 제시합니다.</p>
+        <h3 class="card-title">오피스 임대차 계약 시 확인해야 할 5가지</h3>
+        <p class="card-desc">오피스 임대차에서 가장 많은 분쟁이 생기는 관리비 항목을 반드시 확인하세요. 오피스 임대차 계약 시 놓치기 쉬운 핵심 5가지를 정리했습니다.</p>
         <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
-          <span class="card-arrow">읽기<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-author">valuespace</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
 
-  </div>
-
-  <!-- 3열 작은 카드 -->
-  <div class="articles-grid" id="articlesGrid">
-
-    <a href="#" class="article-card" data-category="region">
+    <a href="https://blog.valuespace.co.kr/%ec%83%81%ea%b6%8c-%eb%b6%84%ec%84%9d-%ed%95%98%eb%8a%94-%eb%b2%95-%ec%b4%88%eb%b3%b4-%ed%88%ac%ec%9e%90%ec%9e%90-%ea%b0%80%ec%9d%b4%eb%93%9c/" class="article-card" data-category="store" target="_blank" rel="noopener">
       <div class="card-img card-img-sm">
         <div class="card-img-pattern"></div>
         <div class="card-img-overlay"></div>
@@ -999,179 +985,19 @@
           </svg>
         </div>
         <div class="card-img-tag">
-          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">지역분석</span>
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">상가/사무실</span>
         </div>
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span class="card-category">지역분석</span>
+          <span class="card-category">상가/사무실</span>
           <span class="card-dot"></span>
-          <span class="card-date">2025.03.14</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">5분</span>
+          <span class="card-date">2026.05.10</span>
         </div>
-        <h3 class="card-title">광교 앨리웨이, 개장 3년의 명암과 주변 상권 변화</h3>
-        <p class="card-desc">광교 대형 복합쇼핑몰의 등장이 인근 소규모 상가에 미친 실질적 영향을 분석합니다.</p>
+        <h3 class="card-title">상권 분석 하는 법 — 초보 투자자 가이드</h3>
+        <p class="card-desc">상권 분석 방법을 제대로 익히면 실패하는 투자를 사전에 막을 수 있습니다. 상가 투자에서 실패하는 가장 큰 이유는 상권 분석 없이 투자하는 것입니다.</p>
         <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
-          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </div>
-    </a>
-
-    <a href="#" class="article-card" data-category="tax">
-      <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
-        <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <div class="card-img-tag">
-          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">법률·세무</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="card-category">법률·세무</span>
-          <span class="card-dot"></span>
-          <span class="card-date">2025.02.27</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">9분</span>
-        </div>
-        <h3 class="card-title">상가 임대차보호법 2024년 개정, 건물주가 꼭 알아야 할 핵심 변경사항</h3>
-        <p class="card-desc">계약갱신요구권, 권리금 보호 범위 등 실제 분쟁 사례를 중심으로 해설합니다.</p>
-        <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
-          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </div>
-    </a>
-
-    <a href="#" class="article-card" data-category="manage">
-      <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
-        <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.07 4.93l-1.41 1.41M19.07 19.07l-1.41-1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M21 12h-2M5 12H3M12 21v-2M12 5V3"/>
-          </svg>
-        </div>
-        <div class="card-img-tag">
-          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">자산관리</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="card-category">자산관리</span>
-          <span class="card-dot"></span>
-          <span class="card-date">2025.02.10</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">6분</span>
-        </div>
-        <h3 class="card-title">부동산 자산관리 수수료, 어떻게 결정되고 무엇을 받을 수 있나</h3>
-        <p class="card-desc">자산관리 비용의 합리적인 기준과 서비스 범위를 투명하게 정리했습니다.</p>
-        <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
-          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </div>
-    </a>
-
-    <a href="#" class="article-card" data-category="market">
-      <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
-        <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-          </svg>
-        </div>
-        <div class="card-img-tag">
-          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">시장동향</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="card-category">시장동향</span>
-          <span class="card-dot"></span>
-          <span class="card-date">2025.01.30</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">5분</span>
-        </div>
-        <h3 class="card-title">미국 기준금리 인하, 국내 상업용 부동산 시장에 미치는 영향</h3>
-        <p class="card-desc">글로벌 금리 변화의 파급 경로와 국내 캡레이트, 거래량 변화 가능성을 분석합니다.</p>
-        <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
-          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </div>
-    </a>
-
-    <a href="#" class="article-card" data-category="invest">
-      <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
-        <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-        </div>
-        <div class="card-img-tag">
-          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">투자분석</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="card-category">투자분석</span>
-          <span class="card-dot"></span>
-          <span class="card-date">2025.01.15</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">7분</span>
-        </div>
-        <h3 class="card-title">지식산업센터 vs 오피스텔 vs 상가, 2025년 투자 매력도 비교</h3>
-        <p class="card-desc">세 가지 상업용 부동산 유형의 수익성, 유동성, 리스크를 항목별로 비교합니다.</p>
-        <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
-          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </div>
-    </a>
-
-    <a href="#" class="article-card" data-category="strategy">
-      <div class="card-img card-img-sm">
-        <div class="card-img-pattern"></div>
-        <div class="card-img-overlay"></div>
-        <div class="card-img-icon">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-            <path d="M16 3.13a4 4 0 010 7.75"/>
-          </svg>
-        </div>
-        <div class="card-img-tag">
-          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">임대전략</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="card-category">임대전략</span>
-          <span class="card-dot"></span>
-          <span class="card-date">2024.12.20</span>
-          <span class="card-dot"></span>
-          <span class="card-readtime">5분</span>
-        </div>
-        <h3 class="card-title">좋은 임차인을 선별하는 기준과 계약 전 반드시 확인해야 할 것들</h3>
-        <p class="card-desc">임대수익의 안정성은 임차인 선택에서 결정됩니다. 실전에서 검증된 심사 기준을 공유합니다.</p>
-        <div class="card-footer">
-          <span class="card-author">이인석 대표</span>
+          <span class="card-author">valuespace</span>
           <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
@@ -1180,12 +1006,12 @@
   </div>
 
   <div class="load-more-wrap">
-    <button class="btn-load-more">
-      더 많은 아티클 보기
+    <a href="https://blog.valuespace.co.kr/" class="btn-load-more" target="_blank" rel="noopener">
+      블로그에서 더 보기
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M6 9l6 6 6-6"/>
+        <path d="M5 12h14M12 5l7 7-7 7"/>
       </svg>
-    </button>
+    </a>
   </div>
 </section>
 
@@ -1194,18 +1020,15 @@
   <div class="topics-inner">
     <span class="topics-label">주요 토픽</span>
     <div class="topics-list">
-      <a href="#" class="topic-chip">공실률</a>
-      <a href="#" class="topic-chip">캡레이트</a>
-      <a href="#" class="topic-chip">임대차보호법</a>
-      <a href="#" class="topic-chip">광교</a>
-      <a href="#" class="topic-chip">동탄</a>
-      <a href="#" class="topic-chip">오피스 시장</a>
-      <a href="#" class="topic-chip">상가 투자</a>
-      <a href="#" class="topic-chip">수익률 분석</a>
-      <a href="#" class="topic-chip">자산가치</a>
-      <a href="#" class="topic-chip">금리</a>
-      <a href="#" class="topic-chip">임대관리</a>
-      <a href="#" class="topic-chip">수도권</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">상업용부동산</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">상가 투자</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">오피스 임대차</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">상권 분석</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">투자전략</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">수익형 부동산</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">2026년 시장분석</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">금리</a>
+      <a href="https://blog.valuespace.co.kr/" class="topic-chip" target="_blank" rel="noopener">임대관리</a>
     </div>
   </div>
 </div>
@@ -1273,9 +1096,10 @@
     document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    const allCards = document.querySelectorAll('#articlesTop .article-card, #articlesGrid .article-card');
+    const allCards = document.querySelectorAll('#articlesGrid .article-card');
     allCards.forEach(card => {
-      card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
+      const cats = card.dataset.category.split(' ');
+      card.style.display = (category === 'all' || cats.includes(category)) ? 'flex' : 'none';
     });
   }
 </script>
