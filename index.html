@@ -404,7 +404,6 @@
     overflow: hidden;
     cursor: pointer;
     transition: all 0.4s;
-    group: true;
   }
   .service-card::after {
     content: '';
@@ -886,8 +885,55 @@
     .values-grid { grid-template-columns: 1fr 1fr; }
     .process-steps { grid-template-columns: 1fr; gap: 40px; }
     .process-steps::before { display: none; }
-    .cta-section { grid-template-columns: 1fr; }
+    nav,
+    section,
+    .stats,
+    .cta-section,
+    footer {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    nav {
+      height: auto;
+      padding-top: 16px;
+      padding-bottom: 16px;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .nav-links {
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-left { padding: 120px 0 80px; }
+    .cta-section { grid-template-columns: 1fr; gap: 40px; }
+    .cta-form { padding: 36px 24px; }
     .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    nav,
+    section,
+    .stats,
+    .cta-section,
+    footer {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .logo { align-items: center; text-align: center; }
+    .nav-links { gap: 12px; }
+    .nav-links a { font-size: 12px; }
+    .nav-cta { padding: 8px 14px; }
+    .hero-title { font-size: clamp(38px, 12vw, 48px); }
+    .hero-btns { flex-direction: column; align-items: flex-start; }
+    .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+    .values-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -1022,7 +1068,7 @@
 </section>
 
 <!-- VALUES -->
-<section class="values">
+<section class="values" id="values">
   <div class="values-header">
     <p class="section-eyebrow">핵심 가치</p>
     <h2 class="section-title">가치공간이 지키는 약속</h2>
@@ -1060,7 +1106,7 @@
 </section>
 
 <!-- PROCESS -->
-<section class="process">
+<section class="process" id="process">
   <div class="process-header">
     <p class="section-eyebrow">서비스 프로세스</p>
     <h2 class="section-title">간단한 3단계로<br>시작하세요</h2>
@@ -1109,23 +1155,23 @@
       </div>
     </div>
   </div>
-  <div class="cta-form">
+  <form class="cta-form" id="consultation-form" action="#" method="post">
     <div class="form-title">온라인 상담 신청</div>
     <div class="form-group">
       <label class="form-label">성함</label>
-      <input type="text" class="form-input" placeholder="홍길동">
+      <input type="text" class="form-input" name="name" placeholder="홍길동" required>
     </div>
     <div class="form-group">
       <label class="form-label">연락처</label>
-      <input type="tel" class="form-input" placeholder="010-0000-0000">
+      <input type="tel" class="form-input" name="phone" placeholder="010-0000-0000" required>
     </div>
     <div class="form-group">
       <label class="form-label">이메일</label>
-      <input type="email" class="form-input" placeholder="example@email.com">
+      <input type="email" class="form-input" name="email" placeholder="example@email.com" required>
     </div>
     <div class="form-group">
       <label class="form-label">문의 서비스</label>
-      <select class="form-input form-select">
+      <select class="form-input form-select" name="service" required>
         <option value="">서비스를 선택해주세요</option>
         <option>상가 임대관리</option>
         <option>오피스 임대관리</option>
@@ -1133,8 +1179,8 @@
         <option>기타 문의</option>
       </select>
     </div>
-    <button class="form-submit">상담 신청하기 →</button>
-  </div>
+    <button type="submit" class="form-submit">상담 신청하기 →</button>
+  </form>
 </section>
 
 <!-- FOOTER -->
@@ -1181,12 +1227,25 @@
 <script>
   (function() {
     const slides = document.querySelectorAll('.hero-slide');
+    if (!slides.length) return;
+
     let cur = 0;
     setInterval(function() {
       slides[cur].classList.remove('active');
       cur = (cur + 1) % slides.length;
       slides[cur].classList.add('active');
     }, 7000);
+  })();
+
+  (function() {
+    const form = document.getElementById('consultation-form');
+    if (!form) return;
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert('상담 신청 내용이 확인되었습니다. 실제 접수를 위해서는 이메일 전송 또는 서버 연결이 필요합니다.');
+      form.reset();
+    });
   })();
 </script>
 </body>
