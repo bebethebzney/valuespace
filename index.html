@@ -486,8 +486,11 @@
   }
   .ceo-img-wrap img {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 240px;
+    right: 0;
+    width: calc(100% - 240px);
     height: 100%;
     object-fit: contain;
     object-position: bottom center;
