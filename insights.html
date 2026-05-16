@@ -126,13 +126,13 @@
     right: 0;
     top: 0;
     bottom: 0;
-    width: 44%;
+    width: 38%;
     pointer-events: none;
     display: flex;
     align-items: flex-end;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
-    mask-image: linear-gradient(to right, transparent 0%, black 30%);
-    opacity: 0.7;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 28%);
+    mask-image: linear-gradient(to right, transparent 0%, black 28%);
+    opacity: 0.85;
   }
   .hero-city-deco svg { width: 100%; height: auto; }
   .page-hero-inner {
@@ -629,13 +629,13 @@
 
   /* ── CTA BANNER ── */
   .cta-banner {
-    background: var(--cream);
+    background: var(--navy);
     padding: 80px 240px;
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 60px;
     align-items: center;
-    border-top: 1px solid rgba(201,168,76,0.2);
+    border-top: 1px solid rgba(201,168,76,0.15);
     position: relative;
     overflow: hidden;
   }
@@ -644,8 +644,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(201,168,76,0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,168,76,0.07) 1px, transparent 1px);
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
   }
   .cta-banner > * { position: relative; z-index: 1; }
@@ -653,7 +653,7 @@
     font-family: 'Noto Serif KR', serif;
     font-size: clamp(22px, 2.4vw, 30px);
     font-weight: 400;
-    color: var(--navy);
+    color: var(--white);
     line-height: 1.55;
     margin-bottom: 10px;
     letter-spacing: -0.02em;
@@ -661,15 +661,15 @@
   .cta-banner-desc {
     font-size: 14px;
     line-height: 1.85;
-    color: var(--text-muted);
+    color: rgba(255,255,255,0.5);
   }
   .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     padding: 16px 36px;
-    background: var(--navy);
-    color: var(--gold);
+    background: var(--gold);
+    color: var(--navy);
     text-decoration: none;
     font-size: 12px;
     font-weight: 500;
@@ -677,13 +677,11 @@
     border-radius: 2px;
     transition: all 0.3s;
     white-space: nowrap;
-    border: 1px solid rgba(201,168,76,0.3);
+    border: none;
   }
   .btn-primary:hover {
-    background: var(--gold);
-    color: var(--navy);
-    border-color: var(--gold);
-    transform: translateY(-2px);
+    background: var(--gold-light);
+    transform: translateY(-1px);
   }
 
   /* ── FOOTER ── */
@@ -825,42 +823,86 @@
   </div>
   <!-- 픽셀 도시 장식 -->
   <div class="hero-city-deco">
-    <svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <pattern id="dotFg" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.28)"/>
+        <!-- 3단계 밀도 패턴 -->
+        <pattern id="dotA" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse">
+          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.60)"/>
         </pattern>
-        <pattern id="dotBg" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-          <rect x="2" y="2" width="7.5" height="7.5" rx="2" fill="rgba(201,168,76,0.09)"/>
+        <pattern id="dotB" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse">
+          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.28)"/>
         </pattern>
-        <mask id="cityFg">
-          <rect width="560" height="380" fill="black"/>
-          <rect x="8"   y="198" width="38" height="182" fill="white"/>
-          <rect x="55"  y="155" width="33" height="225" fill="white"/>
-          <rect x="97"  y="208" width="28" height="172" fill="white"/>
-          <rect x="134" y="102" width="50" height="278" fill="white"/>
-          <rect x="193" y="30"  width="64" height="350" fill="white"/>
-          <rect x="266" y="86"  width="44" height="294" fill="white"/>
-          <rect x="319" y="142" width="38" height="238" fill="white"/>
-          <rect x="364" y="66"  width="54" height="314" fill="white"/>
-          <rect x="427" y="126" width="38" height="254" fill="white"/>
-          <rect x="474" y="156" width="44" height="224" fill="white"/>
-          <rect x="527" y="195" width="30" height="185" fill="white"/>
+        <pattern id="dotC" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse">
+          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.11)"/>
+        </pattern>
+        <!-- 건물 하단 용해(dissolve) 그라디언트 — 전경/중경/배경 각각 다른 속도 -->
+        <linearGradient id="fadeA" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0%"   stop-color="white" stop-opacity="1"/>
+          <stop offset="58%"  stop-color="white" stop-opacity="1"/>
+          <stop offset="80%"  stop-color="white" stop-opacity="0.38"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="fadeB" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0%"   stop-color="white" stop-opacity="1"/>
+          <stop offset="45%"  stop-color="white" stop-opacity="0.88"/>
+          <stop offset="72%"  stop-color="white" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="fadeC" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0%"   stop-color="white" stop-opacity="1"/>
+          <stop offset="32%"  stop-color="white" stop-opacity="0.75"/>
+          <stop offset="62%"  stop-color="white" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <!-- 전경 건물 마스크 (가장 어두운 레이어) -->
+        <mask id="mA">
+          <rect width="500" height="340" fill="black"/>
+          <!-- 높이 낮은 건물들 -->
+          <rect x="4"   y="252" width="26"  height="88"  fill="url(#fadeA)"/>
+          <rect x="38"  y="198" width="32"  height="142" fill="url(#fadeA)"/>
+          <!-- 중간 높이 -->
+          <rect x="115" y="122" width="40"  height="218" fill="url(#fadeA)"/>
+          <rect x="165" y="62"  width="46"  height="278" fill="url(#fadeA)"/>
+          <!-- 가장 높은 건물 (센터) -->
+          <rect x="220" y="12"  width="55"  height="328" fill="url(#fadeA)"/>
+          <!-- 오른쪽 군집 -->
+          <rect x="284" y="45"  width="46"  height="295" fill="url(#fadeA)"/>
+          <rect x="338" y="76"  width="50"  height="264" fill="url(#fadeA)"/>
+          <rect x="432" y="188" width="36"  height="152" fill="url(#fadeA)"/>
+          <rect x="472" y="244" width="24"  height="96"  fill="url(#fadeA)"/>
+          <!-- 안테나/옥상 디테일 -->
+          <rect x="226" y="0"   width="18"  height="16"  fill="white"/>
+          <rect x="170" y="46"  width="12"  height="20"  fill="white"/>
+          <rect x="288" y="30"  width="13"  height="19"  fill="white"/>
+          <rect x="342" y="60"  width="12"  height="20"  fill="white"/>
         </mask>
-        <mask id="cityBg">
-          <rect width="560" height="380" fill="black"/>
-          <rect x="78"  y="122" width="23" height="258" fill="white"/>
-          <rect x="118" y="142" width="23" height="238" fill="white"/>
-          <rect x="178" y="55"  width="27" height="325" fill="white"/>
-          <rect x="249" y="110" width="27" height="270" fill="white"/>
-          <rect x="306" y="122" width="23" height="258" fill="white"/>
-          <rect x="349" y="78"  width="23" height="302" fill="white"/>
-          <rect x="412" y="110" width="27" height="270" fill="white"/>
-          <rect x="516" y="140" width="27" height="240" fill="white"/>
+        <!-- 중경 건물 마스크 -->
+        <mask id="mB">
+          <rect width="500" height="340" fill="black"/>
+          <rect x="76"  y="208" width="24"  height="132" fill="url(#fadeB)"/>
+          <rect x="145" y="168" width="20"  height="172" fill="url(#fadeB)"/>
+          <rect x="395" y="155" width="28"  height="185" fill="url(#fadeB)"/>
+          <rect x="455" y="200" width="18"  height="140" fill="url(#fadeB)"/>
+        </mask>
+        <!-- 배경 건물 마스크 (가장 희미한 레이어) -->
+        <mask id="mC">
+          <rect width="500" height="340" fill="black"/>
+          <rect x="18"  y="222" width="18"  height="118" fill="url(#fadeC)"/>
+          <rect x="56"  y="182" width="16"  height="158" fill="url(#fadeC)"/>
+          <rect x="96"  y="148" width="16"  height="192" fill="url(#fadeC)"/>
+          <rect x="138" y="98"  width="20"  height="242" fill="url(#fadeC)"/>
+          <rect x="200" y="36"  width="20"  height="304" fill="url(#fadeC)"/>
+          <rect x="258" y="26"  width="24"  height="314" fill="url(#fadeC)"/>
+          <rect x="322" y="58"  width="18"  height="282" fill="url(#fadeC)"/>
+          <rect x="375" y="95"  width="18"  height="245" fill="url(#fadeC)"/>
+          <rect x="416" y="156" width="14"  height="184" fill="url(#fadeC)"/>
+          <rect x="448" y="215" width="16"  height="125" fill="url(#fadeC)"/>
         </mask>
       </defs>
-      <rect width="560" height="380" fill="url(#dotBg)" mask="url(#cityBg)"/>
-      <rect width="560" height="380" fill="url(#dotFg)" mask="url(#cityFg)"/>
+      <!-- 배경 → 중경 → 전경 순서로 렌더 -->
+      <rect width="500" height="340" fill="url(#dotC)" mask="url(#mC)"/>
+      <rect width="500" height="340" fill="url(#dotB)" mask="url(#mB)"/>
+      <rect width="500" height="340" fill="url(#dotA)" mask="url(#mA)"/>
     </svg>
   </div>
 </section>
