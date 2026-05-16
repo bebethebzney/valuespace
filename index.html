@@ -477,24 +477,22 @@
   }
 
   .ceo-img-wrap {
-    position: relative;
     min-height: 560px;
     overflow: hidden;
+    padding-left: 240px;
+    display: flex;
+    align-items: flex-end;
   }
   .ceo-img-wrap::after {
     display: none;
   }
   .ceo-img-wrap img {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 240px;
-    right: 0;
-    width: calc(100% - 240px);
-    height: 100%;
-    object-fit: contain;
-    object-position: bottom center;
     display: block;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom left;
   }
 
   .ceo-content {
