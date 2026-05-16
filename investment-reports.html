@@ -198,45 +198,37 @@
   /* ── FILTER BAR ── */
   .filter-bar {
     background: var(--cream);
-    padding: 28px 240px;
+    padding: 0 240px;
     border-bottom: 1px solid rgba(201,168,76,0.2);
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: stretch;
+    gap: 0;
     position: sticky;
     top: 72px;
     z-index: 50;
+    overflow-x: auto;
   }
-  .filter-label {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-right: 8px;
-    flex-shrink: 0;
-  }
-  .filter-btn {
-    padding: 7px 18px;
-    border: 1px solid rgba(201,168,76,0.35);
-    border-radius: 2px;
+  .filter-tab {
+    padding: 18px 24px;
+    border: none;
     background: transparent;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size: 13px;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 300;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
     cursor: pointer;
     transition: all 0.25s;
+    border-bottom: 2px solid transparent;
     white-space: nowrap;
+    position: relative;
+    top: 1px;
   }
-  .filter-btn:hover {
-    border-color: var(--gold);
+  .filter-tab:hover { color: var(--navy); }
+  .filter-tab.active {
     color: var(--navy);
-  }
-  .filter-btn.active {
-    background: var(--navy);
-    border-color: var(--navy);
-    color: var(--gold);
+    font-weight: 500;
+    border-bottom-color: var(--gold);
   }
 
   /* ── FEATURED REPORT ── */
@@ -830,7 +822,7 @@
     .hero-chart-deco { display: none; }
     nav { padding: 0 24px; }
     .page-hero { padding: 140px 24px 64px; }
-    .filter-bar { padding: 20px 24px; overflow-x: auto; flex-wrap: nowrap; }
+    .filter-bar { padding-left: 24px; padding-right: 24px; }
     .featured-section { padding: 60px 24px 48px; }
     .featured-card { grid-template-columns: 1fr; }
     .featured-thumb { min-height: 220px; }
@@ -1004,13 +996,12 @@
 
 <!-- FILTER BAR -->
 <div class="filter-bar">
-  <span class="filter-label">분류</span>
-  <button class="filter-btn active" onclick="filterReports('all', this)">전체</button>
-  <button class="filter-btn" onclick="filterReports('retail', this)">상가</button>
-  <button class="filter-btn" onclick="filterReports('office', this)">오피스</button>
-  <button class="filter-btn" onclick="filterReports('market', this)">시장분석</button>
-  <button class="filter-btn" onclick="filterReports('region', this)">지역별</button>
-  <button class="filter-btn" onclick="filterReports('yield', this)">수익률</button>
+  <button class="filter-tab active" onclick="filterReports('all', this)">전체</button>
+  <button class="filter-tab" onclick="filterReports('retail', this)">상가</button>
+  <button class="filter-tab" onclick="filterReports('office', this)">오피스</button>
+  <button class="filter-tab" onclick="filterReports('market', this)">시장분석</button>
+  <button class="filter-tab" onclick="filterReports('region', this)">지역별</button>
+  <button class="filter-tab" onclick="filterReports('yield', this)">수익률</button>
 </div>
 
 <!-- FEATURED REPORT -->
@@ -1371,7 +1362,7 @@
 
 <script>
   function filterReports(category, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
     const cards = document.querySelectorAll('#reportsGrid .report-card');
