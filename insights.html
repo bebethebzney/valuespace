@@ -124,14 +124,15 @@
   .hero-city-deco {
     position: absolute;
     right: 52px;
-    top: 18px;
+    top: 88px;
     bottom: 0;
-    width: 37%;
+    width: 42%;
     pointer-events: none;
+    overflow: hidden;
     display: flex;
     align-items: flex-end;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 24%);
-    mask-image: linear-gradient(to right, transparent 0%, black 24%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%);
+    mask-image: linear-gradient(to right, transparent 0%, black 22%);
   }
   .hero-city-deco svg { width: 100%; height: auto; }
   .page-hero-inner {
@@ -822,103 +823,103 @@
   </div>
   <!-- 픽셀 도시 장식 -->
   <div class="hero-city-deco">
-    <svg viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <!-- 훨씬 연한 3단계 도트 패턴 -->
         <pattern id="dotA" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse">
-          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.20)"/>
+          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.17)"/>
         </pattern>
         <pattern id="dotB" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse">
-          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.09)"/>
+          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.08)"/>
         </pattern>
         <pattern id="dotC" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse">
-          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.04)"/>
+          <rect x="1.5" y="1.5" width="7.5" height="7.5" rx="1.5" fill="rgba(201,168,76,0.03)"/>
         </pattern>
-        <!-- 용해 그라디언트 (깊이별 속도 차이) -->
         <linearGradient id="fadeA" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
           <stop offset="0%"   stop-color="white" stop-opacity="1"/>
-          <stop offset="62%"  stop-color="white" stop-opacity="1"/>
-          <stop offset="84%"  stop-color="white" stop-opacity="0.32"/>
+          <stop offset="60%"  stop-color="white" stop-opacity="1"/>
+          <stop offset="82%"  stop-color="white" stop-opacity="0.28"/>
           <stop offset="100%" stop-color="white" stop-opacity="0"/>
         </linearGradient>
         <linearGradient id="fadeB" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
           <stop offset="0%"   stop-color="white" stop-opacity="1"/>
-          <stop offset="46%"  stop-color="white" stop-opacity="0.85"/>
-          <stop offset="75%"  stop-color="white" stop-opacity="0.18"/>
+          <stop offset="44%"  stop-color="white" stop-opacity="0.80"/>
+          <stop offset="72%"  stop-color="white" stop-opacity="0.14"/>
           <stop offset="100%" stop-color="white" stop-opacity="0"/>
         </linearGradient>
         <linearGradient id="fadeC" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
           <stop offset="0%"   stop-color="white" stop-opacity="1"/>
-          <stop offset="30%"  stop-color="white" stop-opacity="0.70"/>
-          <stop offset="62%"  stop-color="white" stop-opacity="0.12"/>
+          <stop offset="28%"  stop-color="white" stop-opacity="0.60"/>
+          <stop offset="58%"  stop-color="white" stop-opacity="0.08"/>
           <stop offset="100%" stop-color="white" stop-opacity="0"/>
         </linearGradient>
 
-        <!-- ── 전경 마스크 (가장 진한 레이어) ── -->
+        <!-- ── 전경 마스크: 메인 스카이라인 실루엣 ── -->
         <mask id="mA">
-          <rect width="500" height="340" fill="black"/>
-          <!-- 왼쪽: 낮고 작은 건물들 -->
-          <rect x="3"   y="295" width="14"  height="45"  fill="url(#fadeA)"/>
-          <rect x="20"  y="268" width="22"  height="72"  fill="url(#fadeA)"/>
-          <rect x="46"  y="238" width="30"  height="102" fill="url(#fadeA)"/>
-          <!-- 왼쪽 중간: 높이가 급격히 올라가는 구간 -->
-          <rect x="82"  y="192" width="36"  height="148" fill="url(#fadeA)"/>
-          <rect x="124" y="145" width="28"  height="195" fill="url(#fadeA)"/>
-          <rect x="158" y="88"  width="44"  height="252" fill="url(#fadeA)"/>
-          <!-- 센터: 압도적으로 높은 건물 -->
-          <rect x="210" y="8"   width="56"  height="332" fill="url(#fadeA)"/>
-          <!-- 오른쪽: 급격히 낮아지는 구간 -->
-          <rect x="274" y="38"  width="44"  height="302" fill="url(#fadeA)"/>
-          <rect x="325" y="82"  width="36"  height="258" fill="url(#fadeA)"/>
-          <rect x="368" y="145" width="30"  height="195" fill="url(#fadeA)"/>
-          <rect x="405" y="205" width="24"  height="135" fill="url(#fadeA)"/>
-          <rect x="435" y="255" width="18"  height="85"  fill="url(#fadeA)"/>
-          <rect x="458" y="290" width="14"  height="50"  fill="url(#fadeA)"/>
-          <!-- 옥상 안테나/디테일 -->
-          <rect x="215" y="0"   width="20"  height="12"  fill="white"/>
-          <rect x="162" y="72"  width="12"  height="20"  fill="white"/>
-          <rect x="278" y="22"  width="13"  height="20"  fill="white"/>
-          <rect x="328" y="65"  width="11"  height="20"  fill="white"/>
+          <rect width="640" height="420" fill="black"/>
+          <!-- 왼쪽 끝 좁은 타워 2개 -->
+          <rect x="8"   y="122" width="18"  height="298" fill="url(#fadeA)"/>
+          <rect x="30"  y="108" width="22"  height="312" fill="url(#fadeA)"/>
+          <!-- 왼쪽 중간 클러스터 -->
+          <rect x="57"  y="160" width="38"  height="260" fill="url(#fadeA)"/>
+          <rect x="100" y="180" width="28"  height="240" fill="url(#fadeA)"/>
+          <rect x="133" y="158" width="36"  height="262" fill="url(#fadeA)"/>
+          <!-- 중앙 저지대 (눈에 띄는 딥) -->
+          <rect x="175" y="268" width="44"  height="152" fill="url(#fadeA)"/>
+          <rect x="224" y="280" width="38"  height="140" fill="url(#fadeA)"/>
+          <rect x="267" y="258" width="42"  height="162" fill="url(#fadeA)"/>
+          <!-- 중앙 오른쪽: 상승 전조 건물 -->
+          <rect x="315" y="206" width="44"  height="214" fill="url(#fadeA)"/>
+          <!-- 2번째로 높은 건물 (83%) -->
+          <rect x="365" y="71"  width="88"  height="349" fill="url(#fadeA)"/>
+          <!-- 가장 높은 건물 (88%) + 안테나 -->
+          <rect x="459" y="50"  width="68"  height="370" fill="url(#fadeA)"/>
+          <rect x="477" y="36"  width="8"   height="18"  fill="white"/>
+          <!-- 오른쪽 테이퍼 -->
+          <rect x="533" y="168" width="44"  height="252" fill="url(#fadeA)"/>
+          <rect x="582" y="226" width="36"  height="194" fill="url(#fadeA)"/>
+          <rect x="622" y="280" width="18"  height="140" fill="url(#fadeA)"/>
         </mask>
 
         <!-- ── 중경 마스크 ── -->
         <mask id="mB">
-          <rect width="500" height="340" fill="black"/>
-          <rect x="33"  y="255" width="18"  height="85"  fill="url(#fadeB)"/>
-          <rect x="64"  y="218" width="20"  height="122" fill="url(#fadeB)"/>
-          <rect x="105" y="165" width="18"  height="175" fill="url(#fadeB)"/>
-          <rect x="143" y="108" width="20"  height="232" fill="url(#fadeB)"/>
-          <rect x="195" y="32"  width="22"  height="308" fill="url(#fadeB)"/>
-          <rect x="258" y="56"  width="18"  height="284" fill="url(#fadeB)"/>
-          <rect x="308" y="105" width="20"  height="235" fill="url(#fadeB)"/>
-          <rect x="352" y="168" width="18"  height="172" fill="url(#fadeB)"/>
-          <rect x="390" y="228" width="16"  height="112" fill="url(#fadeB)"/>
-          <rect x="422" y="272" width="16"  height="68"  fill="url(#fadeB)"/>
+          <rect width="640" height="420" fill="black"/>
+          <rect x="20"  y="190" width="16" height="230" fill="url(#fadeB)"/>
+          <rect x="75"  y="218" width="18" height="202" fill="url(#fadeB)"/>
+          <rect x="113" y="198" width="16" height="222" fill="url(#fadeB)"/>
+          <rect x="148" y="220" width="18" height="200" fill="url(#fadeB)"/>
+          <rect x="193" y="290" width="16" height="130" fill="url(#fadeB)"/>
+          <rect x="246" y="298" width="16" height="122" fill="url(#fadeB)"/>
+          <rect x="287" y="244" width="18" height="176" fill="url(#fadeB)"/>
+          <rect x="338" y="130" width="18" height="290" fill="url(#fadeB)"/>
+          <rect x="390" y="100" width="18" height="320" fill="url(#fadeB)"/>
+          <rect x="446" y="90"  width="18" height="330" fill="url(#fadeB)"/>
+          <rect x="510" y="208" width="16" height="212" fill="url(#fadeB)"/>
+          <rect x="558" y="260" width="16" height="160" fill="url(#fadeB)"/>
+          <rect x="602" y="300" width="14" height="120" fill="url(#fadeB)"/>
         </mask>
 
         <!-- ── 배경 마스크 (가장 희미한 레이어) ── -->
         <mask id="mC">
-          <rect width="500" height="340" fill="black"/>
-          <rect x="10"  y="278" width="12"  height="62"  fill="url(#fadeC)"/>
-          <rect x="50"  y="248" width="12"  height="92"  fill="url(#fadeC)"/>
-          <rect x="74"  y="205" width="14"  height="135" fill="url(#fadeC)"/>
-          <rect x="92"  y="175" width="14"  height="165" fill="url(#fadeC)"/>
-          <rect x="116" y="135" width="14"  height="205" fill="url(#fadeC)"/>
-          <rect x="140" y="95"  width="16"  height="245" fill="url(#fadeC)"/>
-          <rect x="180" y="45"  width="16"  height="295" fill="url(#fadeC)"/>
-          <rect x="238" y="18"  width="18"  height="322" fill="url(#fadeC)"/>
-          <rect x="292" y="35"  width="16"  height="305" fill="url(#fadeC)"/>
-          <rect x="338" y="68"  width="14"  height="272" fill="url(#fadeC)"/>
-          <rect x="362" y="125" width="14"  height="215" fill="url(#fadeC)"/>
-          <rect x="395" y="185" width="12"  height="155" fill="url(#fadeC)"/>
-          <rect x="418" y="242" width="12"  height="98"  fill="url(#fadeC)"/>
-          <rect x="445" y="280" width="12"  height="60"  fill="url(#fadeC)"/>
-          <rect x="472" y="305" width="12"  height="35"  fill="url(#fadeC)"/>
+          <rect width="640" height="420" fill="black"/>
+          <rect x="5"   y="250" width="12" height="170" fill="url(#fadeC)"/>
+          <rect x="44"  y="228" width="12" height="192" fill="url(#fadeC)"/>
+          <rect x="84"  y="250" width="12" height="170" fill="url(#fadeC)"/>
+          <rect x="120" y="238" width="12" height="182" fill="url(#fadeC)"/>
+          <rect x="158" y="260" width="12" height="160" fill="url(#fadeC)"/>
+          <rect x="204" y="308" width="12" height="112" fill="url(#fadeC)"/>
+          <rect x="258" y="318" width="12" height="102" fill="url(#fadeC)"/>
+          <rect x="300" y="274" width="14" height="146" fill="url(#fadeC)"/>
+          <rect x="348" y="150" width="14" height="270" fill="url(#fadeC)"/>
+          <rect x="410" y="120" width="14" height="300" fill="url(#fadeC)"/>
+          <rect x="472" y="108" width="14" height="312" fill="url(#fadeC)"/>
+          <rect x="522" y="240" width="12" height="180" fill="url(#fadeC)"/>
+          <rect x="568" y="280" width="12" height="140" fill="url(#fadeC)"/>
+          <rect x="614" y="320" width="12" height="100" fill="url(#fadeC)"/>
         </mask>
       </defs>
-      <rect width="500" height="340" fill="url(#dotC)" mask="url(#mC)"/>
-      <rect width="500" height="340" fill="url(#dotB)" mask="url(#mB)"/>
-      <rect width="500" height="340" fill="url(#dotA)" mask="url(#mA)"/>
+      <rect width="640" height="420" fill="url(#dotC)" mask="url(#mC)"/>
+      <rect width="640" height="420" fill="url(#dotB)" mask="url(#mB)"/>
+      <rect width="640" height="420" fill="url(#dotA)" mask="url(#mA)"/>
     </svg>
   </div>
 </section>
