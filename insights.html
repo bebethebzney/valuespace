@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>부동산 인사이트 — 가치공간 부동산자산관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1a2e42;
+    --navy-light: #243b55;
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --gold-pale: #f5edd9;
+    --cream: #f9f5ee;
+    --white: #ffffff;
+    --gray-light: #f0ece4;
+    --text-dark: #1a1a1a;
+    --text-mid: #4a4540;
+    --text-muted: #8a8078;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    color: var(--text-dark);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 240px;
+    height: 72px;
+    background: rgba(13, 27, 42, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .logo {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    text-decoration: none;
+  }
+  .logo-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .logo-ko {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.5);
+  }
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+    align-items: center;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--gold-light); }
+  .nav-cta {
+    padding: 9px 22px;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    border-radius: 2px;
+    font-size: 12px !important;
+    letter-spacing: 0.1em !important;
+    transition: all 0.3s !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+  }
+  .nav-cta .cta-arrow {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-width 0.35s ease, opacity 0.3s ease, margin-left 0.3s ease;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--navy) !important; }
+  .nav-cta:hover .cta-arrow { max-width: 20px; opacity: 1; margin-left: 7px; }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    background: var(--navy);
+    padding: 160px 240px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  /* 우측 장식 원 */
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    right: 200px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.08);
+    box-shadow: 0 0 0 60px rgba(201,168,76,0.03), 0 0 0 120px rgba(201,168,76,0.015);
+  }
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+  }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .page-hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .page-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 60px);
+    line-height: 1.12;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .page-hero-title em { font-style: italic; color: var(--gold-light); }
+  .page-hero-title-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 300;
+    font-size: clamp(18px, 2.2vw, 24px);
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .page-hero-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.5);
+    max-width: 480px;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    background: var(--cream);
+    padding: 0 240px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: sticky;
+    top: 72px;
+    z-index: 50;
+    overflow-x: auto;
+  }
+  .filter-tab {
+    padding: 18px 24px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all 0.25s;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    position: relative;
+    top: 1px;
+  }
+  .filter-tab:hover { color: var(--navy); }
+  .filter-tab.active {
+    color: var(--navy);
+    font-weight: 500;
+    border-bottom-color: var(--gold);
+  }
+
+  /* ── FEATURED ARTICLE ── */
+  .featured-section {
+    background: var(--white);
+    padding: 80px 240px 64px;
+  }
+  .featured-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .featured-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .featured-article {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    overflow: hidden;
+    transition: border-color 0.3s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .featured-article:hover { border-color: rgba(201,168,76,0.5); }
+
+  .featured-img {
+    position: relative;
+    min-height: 420px;
+    background: var(--navy-light);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .featured-img-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .featured-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(13,27,42,0.3) 0%, rgba(13,27,42,0.7) 100%);
+  }
+  .featured-img-content {
+    position: relative;
+    z-index: 1;
+    padding: 40px;
+    width: 100%;
+  }
+  .article-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 14px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 1px;
+    margin-bottom: 16px;
+  }
+  .featured-img-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.55;
+    letter-spacing: -0.02em;
+  }
+
+  .featured-article-body {
+    padding: 52px 52px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--white);
+    transition: background 0.3s;
+  }
+  .featured-article:hover .featured-article-body { background: var(--gold-pale); }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .article-category {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .meta-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.4);
+    flex-shrink: 0;
+  }
+  .article-date, .article-readtime {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .featured-article-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(20px, 2.2vw, 28px);
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.55;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+  }
+  .featured-article-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+    flex: 1;
+  }
+  .article-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+  .article-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .author-name {
+    font-size: 12px;
+    color: var(--text-mid);
+    letter-spacing: 0.03em;
+  }
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+  .featured-article:hover .read-more { gap: 11px; }
+
+  /* ── ARTICLES GRID ── */
+  .articles-section {
+    background: var(--cream);
+    padding: 72px 240px 96px;
+  }
+  .articles-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.6vw, 32px);
+    color: var(--navy);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+  .articles-count {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    padding-bottom: 4px;
+  }
+
+  /* 상단 2열 큰 카드 */
+  .articles-featured-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: rgba(201,168,76,0.15);
+    margin-bottom: 2px;
+  }
+
+  /* 하단 3열 카드 */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(201,168,76,0.15);
+  }
+
+  /* 공통 카드 */
+  .article-card {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  .article-card:hover { background: var(--gold-pale); }
+
+  .card-img {
+    position: relative;
+    overflow: hidden;
+    background: var(--navy);
+    display: flex;
+    align-items: flex-end;
+  }
+  .card-img-lg { height: 280px; }
+  .card-img-sm { height: 200px; }
+
+  .card-img-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .card-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(13,27,42,0.6) 0%, transparent 60%);
+    transition: opacity 0.3s;
+  }
+  .article-card:hover .card-img-overlay { opacity: 1.3; }
+
+  .card-img-tag {
+    position: relative;
+    z-index: 1;
+    padding: 20px 24px;
+  }
+  /* 아이콘 장식 (가운데 배치) */
+  .card-img-icon {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-img-icon svg {
+    color: rgba(201,168,76,0.15);
+    transition: color 0.3s;
+  }
+  .article-card:hover .card-img-icon svg { color: rgba(201,168,76,0.25); }
+
+  .card-body {
+    padding: 28px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .card-category {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .card-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.4);
+    flex-shrink: 0;
+  }
+  .card-date, .card-readtime {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .card-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    flex: 1;
+  }
+  .card-title-lg {
+    font-size: 19px;
+  }
+  .card-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 18px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    margin-top: auto;
+  }
+  .card-author {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .card-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    transition: gap 0.2s;
+  }
+  .article-card:hover .card-arrow { gap: 10px; }
+
+  /* ── LOAD MORE ── */
+  .load-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 56px;
+  }
+  .btn-load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 48px;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--navy);
+    background: transparent;
+    font-size: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-load-more:hover {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--gold);
+  }
+
+  /* ── TOPICS BAND ── */
+  .topics-band {
+    background: var(--navy);
+    padding: 60px 240px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .topics-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .topics-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .topics-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .topic-chip {
+    padding: 8px 18px;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 100px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: all 0.25s;
+    letter-spacing: 0.03em;
+  }
+  .topic-chip:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    background: var(--cream);
+    padding: 80px 240px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: center;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+  .cta-banner-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.55;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+  .cta-banner-desc {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--text-muted);
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--navy);
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    transition: all 0.3s;
+    white-space: nowrap;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+  .btn-primary:hover {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+  .btn-primary svg { transition: transform 0.3s; }
+  .btn-primary:hover svg { transform: translateX(4px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080e14;
+    padding: 64px 240px 32px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    margin-bottom: 32px;
+  }
+  .footer-brand .f-logo-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 20px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .footer-brand .f-logo-ko {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.5);
+    display: block;
+    margin-bottom: 20px;
+  }
+  .footer-brand p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-col h4 {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-bottom p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.05em;
+  }
+  .footer-bottom a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-bottom a:hover { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.35s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1100px) {
+    nav, .page-hero, .featured-section,
+    .articles-section, .topics-band, .cta-banner, footer {
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+    .filter-bar { padding-left: 48px; padding-right: 48px; }
+  }
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .page-hero { padding: 140px 24px 64px; }
+    .page-hero::after { display: none; }
+    .filter-bar { padding: 0 24px; }
+    .featured-section { padding: 60px 24px 48px; }
+    .featured-article { grid-template-columns: 1fr; }
+    .featured-img { min-height: 240px; }
+    .featured-article-body { padding: 36px 28px; }
+    .articles-section { padding: 56px 24px 72px; }
+    .articles-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .articles-featured-row { grid-template-columns: 1fr; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .topics-band { padding: 48px 24px; }
+    .topics-inner { grid-template-columns: 1fr; gap: 24px; }
+    .cta-banner { padding: 60px 24px; grid-template-columns: 1fr; gap: 32px; }
+    footer { padding: 48px 24px 28px; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <span class="logo-en">Valuespace</span>
+    <span class="logo-ko">가치공간 부동산자산관리</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">홈</a></li>
+    <li><a href="insights.html" class="active">부동산 인사이트</a></li>
+    <li><a href="investment-reports.html">투자 리포트</a></li>
+    <li><a href="index.html#contact" class="nav-cta">문의하기<span class="cta-arrow">→</span></a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-eyebrow fade-up">Real Estate Insights</p>
+    <h1 class="page-hero-title fade-up delay-1"><em>부동산 인사이트</em></h1>
+    <p class="page-hero-title-ko fade-up delay-2">시장을 읽는 전문가의 시선</p>
+    <p class="page-hero-desc fade-up delay-3">
+      수도권 상업용 부동산 시장의 흐름과 기회를<br>
+      가치공간 전문가의 관점으로 분석합니다.<br>
+      임대 전략부터 자산 운용까지, 실전 인사이트를 공유합니다.
+    </p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-tab active" onclick="filterArticles('all', this)">전체</button>
+  <button class="filter-tab" onclick="filterArticles('market', this)">시장동향</button>
+  <button class="filter-tab" onclick="filterArticles('strategy', this)">임대전략</button>
+  <button class="filter-tab" onclick="filterArticles('invest', this)">투자분석</button>
+  <button class="filter-tab" onclick="filterArticles('region', this)">지역분석</button>
+  <button class="filter-tab" onclick="filterArticles('tax', this)">법률·세무</button>
+  <button class="filter-tab" onclick="filterArticles('manage', this)">자산관리</button>
+</div>
+
+<!-- FEATURED ARTICLE -->
+<section class="featured-section">
+  <p class="featured-eyebrow">에디터 추천</p>
+  <a href="#" class="featured-article">
+    <div class="featured-img">
+      <div class="featured-img-pattern"></div>
+      <div class="featured-img-overlay"></div>
+      <div class="featured-img-icon">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <div class="featured-img-content">
+        <div class="article-tag">시장동향</div>
+        <p class="featured-img-title">
+          2025년 상반기, 상가 공실률이<br>드디어 반등의 신호를 보이다
+        </p>
+      </div>
+    </div>
+    <div class="featured-article-body">
+      <div>
+        <div class="article-meta">
+          <span class="article-category">시장동향</span>
+          <span class="meta-dot"></span>
+          <span class="article-date">2025년 4월 22일</span>
+          <span class="meta-dot"></span>
+          <span class="article-readtime">읽는 시간 8분</span>
+        </div>
+        <h2 class="featured-article-title">
+          2025년 상반기, 상가 공실률이<br>드디어 반등의 신호를 보이다
+        </h2>
+        <p class="featured-article-desc">
+          2022년 이후 고금리 장기화와 소비 침체로 악화 일로를 걸어온 수도권 상가 시장이
+          올해 1분기부터 뚜렷한 변화를 보이고 있습니다. 광교·동탄 등 수도권 신도시를 중심으로
+          공실률이 감소하고, 신규 임대 계약 문의가 증가하는 추세입니다. 이 변화가 일시적
+          반등인지 구조적 회복인지를 수요·공급·금리 세 가지 렌즈로 짚어봅니다.
+        </p>
+      </div>
+      <div class="article-footer">
+        <div class="article-author">
+          <div class="author-avatar">이</div>
+          <span class="author-name">이인석 대표</span>
+        </div>
+        <span class="read-more">
+          자세히 읽기
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </a>
+</section>
+
+<!-- ARTICLES GRID -->
+<section class="articles-section">
+  <div class="articles-header">
+    <div>
+      <p class="section-eyebrow">전체 아티클</p>
+      <h2 class="section-title">전문가의 깊이 있는 분석</h2>
+    </div>
+    <span class="articles-count">총 18건</span>
+  </div>
+
+  <!-- 2열 큰 카드 -->
+  <div class="articles-featured-row" id="articlesTop">
+
+    <a href="#" class="article-card" data-category="invest">
+      <div class="card-img card-img-lg">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag">투자분석</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">투자분석</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2025.04.10</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">6분</span>
+        </div>
+        <h3 class="card-title card-title-lg">캡레이트(Cap Rate) 완전 정복 — 상업용 부동산 투자수익률을 읽는 법</h3>
+        <p class="card-desc">처음 상업용 부동산 투자를 검토하는 분들이 가장 많이 혼동하는 지표인 캡레이트. 계산법부터 현실에서의 활용까지 명쾌하게 정리합니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="article-card" data-category="strategy">
+      <div class="card-img card-img-lg">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag">임대전략</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">임대전략</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2025.03.28</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">7분</span>
+        </div>
+        <h3 class="card-title card-title-lg">공실이 장기화될 때 건물주가 취해야 할 5가지 전략</h3>
+        <p class="card-desc">무작정 임대료를 내리는 것이 정답일까요? 공실 장기화 상황에서 자산 가치를 지키면서 임차인을 유치하는 현실적인 접근법을 제시합니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- 3열 작은 카드 -->
+  <div class="articles-grid" id="articlesGrid">
+
+    <a href="#" class="article-card" data-category="region">
+      <div class="card-img card-img-sm">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">지역분석</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">지역분석</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2025.03.14</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">5분</span>
+        </div>
+        <h3 class="card-title">광교 앨리웨이, 개장 3년의 명암과 주변 상권 변화</h3>
+        <p class="card-desc">광교 대형 복합쇼핑몰의 등장이 인근 소규모 상가에 미친 실질적 영향을 분석합니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="article-card" data-category="tax">
+      <div class="card-img card-img-sm">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">법률·세무</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">법률·세무</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2025.02.27</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">9분</span>
+        </div>
+        <h3 class="card-title">상가 임대차보호법 2024년 개정, 건물주가 꼭 알아야 할 핵심 변경사항</h3>
+        <p class="card-desc">계약갱신요구권, 권리금 보호 범위 등 실제 분쟁 사례를 중심으로 해설합니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="article-card" data-category="manage">
+      <div class="card-img card-img-sm">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.07 4.93l-1.41 1.41M19.07 19.07l-1.41-1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M21 12h-2M5 12H3M12 21v-2M12 5V3"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">자산관리</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">자산관리</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2025.02.10</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">6분</span>
+        </div>
+        <h3 class="card-title">부동산 자산관리 수수료, 어떻게 결정되고 무엇을 받을 수 있나</h3>
+        <p class="card-desc">자산관리 비용의 합리적인 기준과 서비스 범위를 투명하게 정리했습니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="article-card" data-category="market">
+      <div class="card-img card-img-sm">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">시장동향</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">시장동향</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2025.01.30</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">5분</span>
+        </div>
+        <h3 class="card-title">미국 기준금리 인하, 국내 상업용 부동산 시장에 미치는 영향</h3>
+        <p class="card-desc">글로벌 금리 변화의 파급 경로와 국내 캡레이트, 거래량 변화 가능성을 분석합니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="article-card" data-category="invest">
+      <div class="card-img card-img-sm">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">투자분석</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">투자분석</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2025.01.15</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">7분</span>
+        </div>
+        <h3 class="card-title">지식산업센터 vs 오피스텔 vs 상가, 2025년 투자 매력도 비교</h3>
+        <p class="card-desc">세 가지 상업용 부동산 유형의 수익성, 유동성, 리스크를 항목별로 비교합니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="article-card" data-category="strategy">
+      <div class="card-img card-img-sm">
+        <div class="card-img-pattern"></div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-icon">
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <div class="card-img-tag">
+          <span class="article-tag" style="font-size:9px; padding: 3px 10px;">임대전략</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-category">임대전략</span>
+          <span class="card-dot"></span>
+          <span class="card-date">2024.12.20</span>
+          <span class="card-dot"></span>
+          <span class="card-readtime">5분</span>
+        </div>
+        <h3 class="card-title">좋은 임차인을 선별하는 기준과 계약 전 반드시 확인해야 할 것들</h3>
+        <p class="card-desc">임대수익의 안정성은 임차인 선택에서 결정됩니다. 실전에서 검증된 심사 기준을 공유합니다.</p>
+        <div class="card-footer">
+          <span class="card-author">이인석 대표</span>
+          <span class="card-arrow">읽기<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="load-more-wrap">
+    <button class="btn-load-more">
+      더 많은 아티클 보기
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- TOPICS BAND -->
+<div class="topics-band">
+  <div class="topics-inner">
+    <span class="topics-label">주요 토픽</span>
+    <div class="topics-list">
+      <a href="#" class="topic-chip">공실률</a>
+      <a href="#" class="topic-chip">캡레이트</a>
+      <a href="#" class="topic-chip">임대차보호법</a>
+      <a href="#" class="topic-chip">광교</a>
+      <a href="#" class="topic-chip">동탄</a>
+      <a href="#" class="topic-chip">오피스 시장</a>
+      <a href="#" class="topic-chip">상가 투자</a>
+      <a href="#" class="topic-chip">수익률 분석</a>
+      <a href="#" class="topic-chip">자산가치</a>
+      <a href="#" class="topic-chip">금리</a>
+      <a href="#" class="topic-chip">임대관리</a>
+      <a href="#" class="topic-chip">수도권</a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div>
+    <h2 class="cta-banner-title">
+      인사이트를 실전에 적용하고 싶으시다면<br>전문가와 직접 상담하세요
+    </h2>
+    <p class="cta-banner-desc">
+      분석 내용을 바탕으로 내 자산에 맞는 전략을 수립해 드립니다.<br>
+      초기 상담은 무료입니다.
+    </p>
+  </div>
+  <a href="index.html#contact" class="btn-primary">
+    무료 상담 신청
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="f-logo-en">Valuespace</span>
+      <span class="f-logo-ko">가치공간 부동산자산관리 (주)</span>
+      <p>상가·오피스 전문 부동산 자산관리 법인.<br>고객의 자산이 최적의 가치를 유지하고<br>성장할 수 있도록 함께합니다.</p>
+    </div>
+    <div class="footer-col">
+      <h4>서비스</h4>
+      <ul>
+        <li><a href="#">상가 임대관리</a></li>
+        <li><a href="#">오피스 임대관리</a></li>
+        <li><a href="#">자산가치 컨설팅</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>콘텐츠</h4>
+      <ul>
+        <li><a href="insights.html">부동산 인사이트</a></li>
+        <li><a href="investment-reports.html">투자 리포트</a></li>
+        <li><a href="#">개인정보 처리방침</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>연락처</h4>
+      <ul>
+        <li><a href="tel:01034202767">010-3420-2767</a></li>
+        <li><a href="mailto:neo.vspace@gmail.com">neo.vspace@gmail.com</a></li>
+        <li><a href="#">수원시 영통구 광교중앙로 170</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 가치공간 부동산자산관리 (주). All rights reserved.</p>
+    <a href="#">개인정보 처리방침</a>
+  </div>
+</footer>
+
+<script>
+  function filterArticles(category, btn) {
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const allCards = document.querySelectorAll('#articlesTop .article-card, #articlesGrid .article-card');
+    allCards.forEach(card => {
+      card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
+    });
+  }
+</script>
+
+</body>
+</html>
