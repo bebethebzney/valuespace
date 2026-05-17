@@ -1212,11 +1212,10 @@ async function submitConsultForm() {
   const body = {
     access_key: '46cd35fb-5bfd-42e2-808d-4d8b288b59e2',
     subject: '[가치공간] 온라인 상담 신청',
-    from_name: name,
-    email: email || 'no-reply@valuespace.kr',
-    message:
-      `성함: ${name}\n연락처: ${phone}\n이메일: ${email || '미입력'}\n문의 서비스: ${service || '미선택'}`
+    name: name,
+    message: `성함: ${name}\n연락처: ${phone}\n이메일: ${email || '미입력'}\n문의 서비스: ${service || '미선택'}`
   };
+  if (email) body.email = email;
 
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
@@ -1231,10 +1230,12 @@ async function submitConsultForm() {
       document.getElementById('cf-service').selectedIndex = 0;
       btn.textContent = '신청 완료 ✓';
     } else {
-      throw new Error(data.message);
+      showMsg('오류: ' + (data.message || '알 수 없는 오류'), '#e8a87c');
+      btn.disabled = false;
+      btn.textContent = '상담 신청하기 →';
     }
   } catch (e) {
-    showMsg('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', '#e8a87c');
+    showMsg('네트워크 오류: ' + e.message, '#e8a87c');
     btn.disabled = false;
     btn.textContent = '상담 신청하기 →';
   }
