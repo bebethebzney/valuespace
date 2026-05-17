@@ -1134,6 +1134,10 @@
         <option>기타 문의</option>
       </select>
     </div>
+    <div class="form-group">
+      <label class="form-label">문의 내용</label>
+      <textarea id="cf-content" class="form-input" placeholder="문의 내용을 입력해주세요" rows="4" style="resize:vertical; min-height:100px; line-height:1.7"></textarea>
+    </div>
     <button id="cf-submit" class="form-submit" onclick="submitConsultForm()">상담 신청하기 →</button>
     <div id="cf-msg" style="display:none; margin-top:16px; font-size:13px; text-align:center;"></div>
   </div>
@@ -1198,6 +1202,7 @@ async function submitConsultForm() {
   const phone   = document.getElementById('cf-phone').value.trim();
   const email   = document.getElementById('cf-email').value.trim();
   const service = document.getElementById('cf-service').value;
+  const content = document.getElementById('cf-content').value.trim();
   const btn     = document.getElementById('cf-submit');
   const msg     = document.getElementById('cf-msg');
 
@@ -1213,7 +1218,7 @@ async function submitConsultForm() {
     access_key: '46cd35fb-5bfd-42e2-808d-4d8b288b59e2',
     subject: '[가치공간] 온라인 상담 신청',
     name: name,
-    message: `성함: ${name}\n연락처: ${phone}\n이메일: ${email || '미입력'}\n문의 서비스: ${service || '미선택'}`
+    message: `성함: ${name}\n연락처: ${phone}\n이메일: ${email || '미입력'}\n문의 서비스: ${service || '미선택'}\n\n문의 내용:\n${content || '미입력'}`
   };
   if (email) body.email = email;
 
@@ -1226,7 +1231,7 @@ async function submitConsultForm() {
     const data = await res.json();
     if (data.success) {
       showMsg('상담 신청이 완료되었습니다. 24시간 내 연락드리겠습니다.', 'var(--gold)');
-      ['cf-name','cf-phone','cf-email'].forEach(id => document.getElementById(id).value = '');
+      ['cf-name','cf-phone','cf-email','cf-content'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('cf-service').selectedIndex = 0;
       btn.textContent = '신청 완료 ✓';
     } else {
