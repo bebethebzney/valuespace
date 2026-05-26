@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Book Buddy — 책 속 친구와 대화해요!</title>
+<style>
+  /* ── Reset & Variables ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:          #FFF8F0;
+    --primary:     #FF6B6B;
+    --primary-lt:  #FFD6D6;
+    --accent:      #FFB347;
+    --accent-lt:   #FFF0D4;
+    --teal:        #4ECDC4;
+    --teal-lt:     #D4F5F3;
+    --purple:      #A78BFA;
+    --purple-lt:   #EDE9FE;
+    --text:        #2D2D2D;
+    --text-muted:  #8A8A8A;
+    --white:       #FFFFFF;
+    --shadow-sm:   0 2px 8px rgba(0,0,0,0.08);
+    --shadow-md:   0 6px 24px rgba(0,0,0,0.12);
+    --shadow-lg:   0 12px 40px rgba(0,0,0,0.16);
+    --radius-sm:   12px;
+    --radius-md:   20px;
+    --radius-lg:   32px;
+    --radius-xl:   48px;
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top Navigation ── */
+  .nav {
+    height: 64px;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 12px;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .nav-logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-book-title {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .nav-book-title span {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 13px;
+    margin-left: 6px;
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: var(--bg);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .nav-btn:hover { background: #F0E8E0; transform: scale(1.05); }
+  .nav-btn:active { transform: scale(0.95); }
+
+  /* ── Main Layout ── */
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    grid-template-rows: 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* ── Left: E-Book Panel ── */
+  .ebook-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .ebook-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .ebook-controls-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .page-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .page-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--primary-lt);
+    background: var(--white);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--primary);
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+
+  .page-btn:hover { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
+  .page-indicator {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  /* Book viewer */
+  .book-viewer {
+    flex: 1;
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .book-page {
+    flex: 1;
+    padding: 40px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    transition: opacity 0.3s;
+  }
+
+  .book-page.turning { opacity: 0; }
+
+  .book-illustration {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #FFF3E0, #FCE4EC);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .book-illustration::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(255,200,100,0.3), transparent 60%),
+                radial-gradient(ellipse at 70% 60%, rgba(255,100,100,0.2), transparent 60%);
+  }
+
+  .book-chapter {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  .book-text {
+    font-size: 18px;
+    line-height: 1.9;
+    color: var(--text);
+    font-family: 'Georgia', serif;
+  }
+
+  .book-text .highlight {
+    background: linear-gradient(180deg, transparent 60%, #FFE082 60%);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+
+  .book-text .highlight:hover {
+    background: linear-gradient(180deg, transparent 60%, var(--accent) 60%);
+  }
+
+  /* Page turn hint */
+  .page-turn-hint {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.9);
+    padding: 6px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* Highlighted word tooltip */
+  .word-tooltip {
+    position: absolute;
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text);
+    max-width: 200px;
+    z-index: 200;
+    display: none;
+    border-left: 3px solid var(--accent);
+  }
+
+  .word-tooltip.show { display: block; }
+  .word-tooltip strong { color: var(--accent); display: block; margin-bottom: 4px; }
+
+  /* ── Right: Character Panel ── */
+  .character-panel {
+    background: linear-gradient(180deg, #1A1F3A 0%, #0F1428 100%);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Stars background */
+  .stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+
+  /* Character stage */
+  .character-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px 0;
+    position: relative;
+    min-height: 0;
+  }
+
+  .character-name-badge {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    white-space: nowrap;
+    z-index: 10;
+  }
+
+  /* 3D Character placeholder — will be Three.js canvas */
+  .character-3d {
+    width: 220px;
+    height: 280px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .character-body {
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* SVG Character (Fox) */
+  .char-svg {
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(255,107,107,0.4));
+  }
+
+  /* Emotion badge */
+  .emotion-badge {
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  /* Platform glow */
+  .character-shadow {
+    width: 120px;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(255,107,107,0.4), transparent 70%);
+    border-radius: 50%;
+    margin-top: -10px;
+    flex-shrink: 0;
+  }
+
+  /* Speech bubble */
+  .speech-bubble {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-md);
+    border-bottom-right-radius: 4px;
+    padding: 14px 18px;
+    margin: 12px 16px 0;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 28px;
+    border: 10px solid transparent;
+    border-top-color: rgba(255,255,255,0.15);
+  }
+
+  .speech-text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  .typing-indicator {
+    display: none;
+    gap: 4px;
+    padding: 4px 0;
+  }
+
+  .typing-indicator.show { display: flex; }
+
+  .typing-dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    animation: typing-bounce 1.2s ease-in-out infinite;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes typing-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+    40% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Video section */
+  .video-section {
+    margin: 12px 16px 0;
+    flex-shrink: 0;
+  }
+
+  .video-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .video-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: live-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .video-frame {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: rgba(0,0,0,0.4);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .video-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+
+  .video-frame:hover .video-placeholder { opacity: 1; }
+
+  .video-play-btn {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+
+  .video-frame:hover .video-play-btn {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: scale(1.1);
+  }
+
+  .video-desc {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+  }
+
+  .video-frame .video-scenes {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+  }
+
+  .video-scene-thumb {
+    flex: 1;
+    aspect-ratio: 16/9;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-scene-thumb:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+  .video-scene-thumb.active { border-color: var(--accent); }
+
+  /* ── Chat Interface ── */
+  .chat-bar {
+    background: rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  /* Chat toggle button */
+  .chat-toggle-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .chat-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 24px;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+    flex: 1;
+  }
+
+  .chat-toggle-btn:hover { background: rgba(255,255,255,0.16); }
+  .chat-toggle-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .chat-icon { font-size: 16px; }
+
+  .quick-action-btn {
+    width: 38px;
+    height: 38px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .quick-action-btn:hover { background: rgba(255,255,255,0.16); transform: scale(1.05); }
+
+  /* Chat window (expandable) */
+  .chat-window {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .chat-window.open { max-height: 280px; }
+
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    max-height: 180px;
+    padding-right: 4px;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+  .chat-msg {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    animation: msg-in 0.25s ease;
+  }
+
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-msg.user { flex-direction: row-reverse; }
+
+  .chat-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primary-lt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .chat-msg.user .chat-avatar { background: var(--teal-lt); }
+
+  .chat-bubble {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-sm);
+    border-bottom-left-radius: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    max-width: 200px;
+    line-height: 1.5;
+  }
+
+  .chat-msg.user .chat-bubble {
+    background: var(--teal);
+    border-color: var(--teal);
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: 4px;
+    color: white;
+  }
+
+  /* Chat input */
+  .chat-input-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .chat-input::placeholder { color: rgba(255,255,255,0.35); }
+  .chat-input:focus { border-color: var(--teal); }
+
+  .chat-send-btn {
+    width: 38px;
+    height: 38px;
+    background: var(--teal);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .chat-send-btn:hover { transform: scale(1.1); background: #3DBDB5; }
+  .chat-send-btn:active { transform: scale(0.95); }
+
+  /* Quick prompts */
+  .quick-prompts {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .quick-prompt {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .quick-prompt:hover {
+    background: rgba(255,255,255,0.16);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  /* ── Emotion Selector Overlay ── */
+  .emotion-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .emotion-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .emotion-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    width: 360px;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.9);
+    transition: transform 0.3s;
+  }
+
+  .emotion-overlay.show .emotion-card { transform: scale(1); }
+
+  .emotion-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .emotion-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .emotion-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .emotion-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 12px 8px;
+    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .emotion-item:hover { background: var(--bg); border-color: var(--primary-lt); transform: scale(1.05); }
+  .emotion-item.selected { background: var(--primary-lt); border-color: var(--primary); }
+
+  .emotion-emoji { font-size: 32px; }
+  .emotion-label { font-size: 11px; font-weight: 600; color: var(--text); }
+
+  /* ── Book Library Overlay ── */
+  .library-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .library-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .library-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+
+  .library-overlay.show .library-card { transform: translateY(0); }
+
+  .library-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .library-header h3 { font-size: 20px; font-weight: 700; }
+
+  .library-close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: var(--bg);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .library-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .book-card {
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+
+  .book-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary-lt); }
+  .book-card.active { border-color: var(--primary); background: var(--primary-lt); }
+
+  .book-cover {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    margin-bottom: 10px;
+    background: var(--white);
+  }
+
+  .book-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .book-card-age { font-size: 11px; color: var(--text-muted); }
+  .book-card-chars { font-size: 11px; color: var(--primary); margin-top: 6px; font-weight: 500; }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--text);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1000;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  /* ── Responsive (tablet portrait) ── */
+  @media (max-width: 900px) {
+    .main {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+    }
+
+    .ebook-panel { padding: 12px; }
+    .character-panel { max-height: 380px; }
+    .character-stage { padding: 12px 20px 0; }
+    .character-3d { height: 200px; }
+    .char-svg { width: 140px; }
+    .speech-bubble { margin: 8px 12px 0; }
+    .video-section { margin: 8px 12px 0; }
+    .video-frame { aspect-ratio: 21/9; }
+    .chat-bar { padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">📚</div>
+    <div class="nav-logo-text">Book Buddy</div>
+  </a>
+  <div class="nav-book-title">
+    여우와 포도 <span>이솝우화</span>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn" title="도움말" onclick="showToast('💡 궁금한 단어를 터치해보세요!')">❓</button>
+    <button class="nav-btn" title="내 서재" onclick="openLibrary()">📖</button>
+    <button class="nav-btn" title="설정">⚙️</button>
+  </div>
+</nav>
+
+<!-- Main Layout -->
+<div class="main">
+
+  <!-- Left: E-Book Panel -->
+  <div class="ebook-panel">
+    <div class="ebook-controls">
+      <span class="ebook-controls-label">📄 본문 읽기</span>
+      <div class="page-nav">
+        <button class="page-btn" onclick="prevPage()">‹</button>
+        <span class="page-indicator" id="page-indicator">3 / 12</span>
+        <button class="page-btn" onclick="nextPage()">›</button>
+      </div>
+    </div>
+
+    <div class="book-viewer" id="book-viewer">
+      <div class="book-page" id="book-page">
+        <div class="book-illustration">
+          🦊🍇
+        </div>
+        <div class="book-chapter">제 3 장 — 포도밭에서</div>
+        <div class="book-text" id="book-text">
+          어느 무더운 여름날, 배고픈 <span class="highlight" onclick="showWordTip(event, '여우', '영리하고 꾀가 많은 동물이에요. 이 이야기의 주인공이랍니다!')">여우</span>가 숲을 헤매다 탐스러운 포도송이를 발견했어요.
+          <br><br>
+          포도는 높은 담장 위에 주렁주렁 달려 있었고, 여우는 <span class="highlight" onclick="showWordTip(event, '탐스러운', '보기에 먹음직스럽고 탐이 나는 것을 뜻해요.')">탐스러운</span> 포도를 먹고 싶어 온몸으로 뛰어올랐지요.
+          <br><br>
+          "에잇! 저 포도는 <span class="highlight" onclick="showWordTip(event, '신 포도', '\"저 포도는 분명히 실거야\"라고 스스로 위로하는 표현이에요.')">어차피 실 거야.</span>" 여우는 씩씩거리며 자리를 떠났답니다.
+        </div>
+      </div>
+      <div class="page-turn-hint">👆 페이지를 탭해서 넘기세요</div>
+      <div class="word-tooltip" id="word-tooltip">
+        <strong id="tooltip-word"></strong>
+        <span id="tooltip-desc"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Character Panel -->
+  <div class="character-panel">
+
+    <!-- Stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Character Stage -->
+    <div class="character-stage">
+      <div class="character-name-badge">🦊 여우 레니</div>
+
+      <div class="character-3d">
+        <div class="character-body" id="character-body">
+          <!-- SVG Fox Character -->
+          <svg class="char-svg" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Tail -->
+            <ellipse cx="155" cy="210" rx="38" ry="22" fill="#E8873A" transform="rotate(-20 155 210)"/>
+            <ellipse cx="160" cy="208" rx="22" ry="13" fill="#F4A261" transform="rotate(-20 160 208)"/>
+            <circle cx="172" cy="200" r="12" fill="white"/>
+            <!-- Body -->
+            <ellipse cx="100" cy="190" rx="50" ry="58" fill="#E8873A"/>
+            <ellipse cx="100" cy="200" rx="32" ry="38" fill="#F4C5A0"/>
+            <!-- Left Arm -->
+            <ellipse cx="58" cy="185" rx="14" ry="34" fill="#E8873A" transform="rotate(-15 58 185)"/>
+            <!-- Right Arm -->
+            <ellipse cx="142" cy="185" rx="14" ry="34" fill="#E8873A" transform="rotate(15 142 185)"/>
+            <!-- Legs -->
+            <ellipse cx="82" cy="238" rx="16" ry="20" fill="#C9621E"/>
+            <ellipse cx="118" cy="238" rx="16" ry="20" fill="#C9621E"/>
+            <!-- Feet -->
+            <ellipse cx="80" cy="252" rx="20" ry="10" fill="#A0480D"/>
+            <ellipse cx="120" cy="252" rx="20" ry="10" fill="#A0480D"/>
+            <!-- Head -->
+            <ellipse cx="100" cy="110" rx="54" ry="52" fill="#E8873A"/>
+            <!-- Ears -->
+            <polygon points="56,72 42,32 80,62" fill="#E8873A"/>
+            <polygon points="60,68 50,44 74,64" fill="#FF9B9B"/>
+            <polygon points="144,72 158,32 120,62" fill="#E8873A"/>
+            <polygon points="140,68 150,44 126,64" fill="#FF9B9B"/>
+            <!-- Face -->
+            <ellipse cx="100" cy="118" rx="36" ry="30" fill="#F4C5A0"/>
+            <!-- Eyes -->
+            <circle cx="83" cy="100" r="10" fill="white"/>
+            <circle cx="117" cy="100" r="10" fill="white"/>
+            <circle cx="85" cy="101" r="6" fill="#3D2B1F" id="eye-l"/>
+            <circle cx="119" cy="101" r="6" fill="#3D2B1F" id="eye-r"/>
+            <circle cx="87" cy="99" r="2" fill="white"/>
+            <circle cx="121" cy="99" r="2" fill="white"/>
+            <!-- Eyebrows -->
+            <path d="M76 90 Q83 85 90 88" stroke="#8B4513" stroke-width="2.5" stroke-linecap="round" fill="none" id="brow-l"/>
+            <path d="M110 88 Q117 85 124 90" stroke="#8B4513" stroke-width="2.5" stroke-linecap="round" fill="none" id="brow-r"/>
+            <!-- Nose -->
+            <ellipse cx="100" cy="114" rx="7" ry="5" fill="#C9621E"/>
+            <!-- Mouth -->
+            <path d="M88 124 Q100 134 112 124" stroke="#C9621E" stroke-width="2.5" stroke-linecap="round" fill="none" id="char-mouth"/>
+            <!-- Cheeks -->
+            <circle cx="74" cy="116" r="10" fill="#FF9B9B" opacity="0.35"/>
+            <circle cx="126" cy="116" r="10" fill="#FF9B9B" opacity="0.35"/>
+          </svg>
+          <div class="emotion-badge" id="emotion-badge">😊</div>
+        </div>
+      </div>
+      <div class="character-shadow"></div>
+    </div>
+
+    <!-- Speech Bubble -->
+    <div class="speech-bubble">
+      <div class="speech-text" id="speech-text">
+        안녕! 나는 여우 레니야. 오늘 포도밭에서 겪은 일을 같이 이야기해볼까? 🍇
+      </div>
+      <div class="typing-indicator" id="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+
+    <!-- Video Section -->
+    <div class="video-section">
+      <div class="video-label">장면 클립</div>
+      <div class="video-frame" onclick="toggleVideo()">
+        <div class="video-placeholder" id="video-placeholder">
+          <div class="video-play-btn">▶</div>
+          <div class="video-desc">포도밭 장면 보기</div>
+        </div>
+        <div class="video-scenes">
+          <div class="video-scene-thumb active" onclick="selectScene(event, 0)" title="포도밭 도착">🌿</div>
+          <div class="video-scene-thumb" onclick="selectScene(event, 1)" title="점프 시도">⬆️</div>
+          <div class="video-scene-thumb" onclick="selectScene(event, 2)" title="포기하는 여우">😤</div>
+          <div class="video-scene-thumb" onclick="selectScene(event, 3)" title="교훈">💡</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-bar">
+      <div class="chat-toggle-row">
+        <button class="chat-toggle-btn" id="chat-toggle-btn" onclick="toggleChat()">
+          <span class="chat-icon">💬</span>
+          <span id="chat-btn-label">레니에게 질문하기</span>
+        </button>
+        <button class="quick-action-btn" title="감정 표현" onclick="openEmotionSelector()">😄</button>
+        <button class="quick-action-btn" title="음성으로 말하기">🎙️</button>
+      </div>
+
+      <div class="chat-window" id="chat-window">
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-msg">
+            <div class="chat-avatar">🦊</div>
+            <div class="chat-bubble">안녕! 나랑 이야기 해봐 😊</div>
+          </div>
+          <div class="chat-msg user">
+            <div class="chat-avatar">🧒</div>
+            <div class="chat-bubble">레니야, 왜 포도를 못 먹었어?</div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-avatar">🦊</div>
+            <div class="chat-bubble">포도가 너무 높이 달려 있어서 손이 닿지 않았거든... 속상했어 😞</div>
+          </div>
+        </div>
+
+        <div class="quick-prompts">
+          <div class="quick-prompt" onclick="sendQuickPrompt(this)">왜 포기했어?</div>
+          <div class="quick-prompt" onclick="sendQuickPrompt(this)">다시 시도할 수 있었어?</div>
+          <div class="quick-prompt" onclick="sendQuickPrompt(this)">기분이 어때?</div>
+          <div class="quick-prompt" onclick="sendQuickPrompt(this)">교훈이 뭐야?</div>
+        </div>
+
+        <div class="chat-input-row">
+          <input class="chat-input" id="chat-input" type="text" placeholder="레니에게 질문해봐요..." maxlength="200"
+            onkeydown="if(event.key==='Enter') sendMessage()">
+          <button class="chat-send-btn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /character-panel -->
+</div><!-- /main -->
+
+<!-- Emotion Selector Overlay -->
+<div class="emotion-overlay" id="emotion-overlay" onclick="closeEmotionSelector(event)">
+  <div class="emotion-card">
+    <h3>지금 기분이 어때요?</h3>
+    <p>레니와 대화할 때 내 감정을 알려줘요!</p>
+    <div class="emotion-grid">
+      <div class="emotion-item" onclick="selectEmotion('😊', '기뻐요')">
+        <div class="emotion-emoji">😊</div>
+        <div class="emotion-label">기뻐요</div>
+      </div>
+      <div class="emotion-item" onclick="selectEmotion('😢', '슬퍼요')">
+        <div class="emotion-emoji">😢</div>
+        <div class="emotion-label">슬퍼요</div>
+      </div>
+      <div class="emotion-item" onclick="selectEmotion('😮', '놀랐어요')">
+        <div class="emotion-emoji">😮</div>
+        <div class="emotion-label">놀랐어요</div>
+      </div>
+      <div class="emotion-item" onclick="selectEmotion('😡', '화났어요')">
+        <div class="emotion-emoji">😡</div>
+        <div class="emotion-label">화났어요</div>
+      </div>
+      <div class="emotion-item" onclick="selectEmotion('🤔', '궁금해요')">
+        <div class="emotion-emoji">🤔</div>
+        <div class="emotion-label">궁금해요</div>
+      </div>
+      <div class="emotion-item" onclick="selectEmotion('😴', '졸려요')">
+        <div class="emotion-emoji">😴</div>
+        <div class="emotion-label">졸려요</div>
+      </div>
+      <div class="emotion-item" onclick="selectEmotion('🤩', '신나요')">
+        <div class="emotion-emoji">🤩</div>
+        <div class="emotion-label">신나요</div>
+      </div>
+      <div class="emotion-item" onclick="selectEmotion('😅', '어려워요')">
+        <div class="emotion-emoji">😅</div>
+        <div class="emotion-label">어려워요</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Library Overlay -->
+<div class="library-overlay" id="library-overlay" onclick="closeLibrary(event)">
+  <div class="library-card">
+    <div class="library-header">
+      <h3>📚 내 서재</h3>
+      <button class="library-close" onclick="closeLibrary()">✕</button>
+    </div>
+    <div class="library-grid">
+      <div class="book-card active" onclick="selectBook(this, '여우와 포도')">
+        <div class="book-cover">🦊🍇</div>
+        <div class="book-card-title">여우와 포도</div>
+        <div class="book-card-age">6-9세 · 이솝우화</div>
+        <div class="book-card-chars">🦊 여우 레니</div>
+      </div>
+      <div class="book-card" onclick="selectBook(this, '토끼와 거북이')">
+        <div class="book-cover">🐢🐰</div>
+        <div class="book-card-title">토끼와 거북이</div>
+        <div class="book-card-age">4-8세 · 이솝우화</div>
+        <div class="book-card-chars">🐢 거북이 토미 · 🐰 토끼 비니</div>
+      </div>
+      <div class="book-card" onclick="selectBook(this, '신데렐라')">
+        <div class="book-cover">👸✨</div>
+        <div class="book-card-title">신데렐라</div>
+        <div class="book-card-age">5-10세 · 그림동화</div>
+        <div class="book-card-chars">👸 신데렐라 · 🧚 요정 할머니</div>
+      </div>
+      <div class="book-card" onclick="selectBook(this, '아기 돼지 삼형제')">
+        <div class="book-cover">🐷🏠</div>
+        <div class="book-card-title">아기 돼지 삼형제</div>
+        <div class="book-card-age">4-7세 · 전래동화</div>
+        <div class="book-card-chars">🐷 막내 돼지 피피</div>
+      </div>
+      <div class="book-card" onclick="selectBook(this, '이상한 나라의 앨리스')">
+        <div class="book-cover">🐇🎩</div>
+        <div class="book-card-title">이상한 나라의 앨리스</div>
+        <div class="book-card-age">8-12세 · 루이스 캐럴</div>
+        <div class="book-card-chars">🐇 흰 토끼 · 🃏 여왕</div>
+      </div>
+      <div class="book-card" style="opacity:0.5; cursor:not-allowed;">
+        <div class="book-cover">➕</div>
+        <div class="book-card-title">더 많은 책</div>
+        <div class="book-card-age">곧 추가 예정</div>
+        <div class="book-card-chars">🔜 Coming Soon</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Stars ──
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*4}s;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;`;
+    starsEl.appendChild(s);
+  }
+
+  // ── Page Turn ──
+  let currentPage = 3;
+  const totalPages = 12;
+
+  const pages = [
+    {
+      illus: '📖🌅', chapter: '제 1 장 — 아침의 숲',
+      text: '이른 아침, 싱그러운 숲속에서 <span class="highlight" onclick="showWordTip(event,\'여우\',\'영리하고 꾀가 많은 동물이에요.\')">여우</span> 레니가 눈을 떴어요. 배에서 꼬르륵 소리가 났지요.'
+    },
+    {
+      illus: '🌲🍃', chapter: '제 2 장 — 먹이를 찾아서',
+      text: '레니는 먹을 것을 찾아 <span class="highlight" onclick="showWordTip(event,\'숲속\',\'나무가 많이 우거진 곳이에요.\')">숲속</span>을 헤매기 시작했어요. 아침 이슬이 풀잎마다 반짝였답니다.'
+    },
+    {
+      illus: '🦊🍇', chapter: '제 3 장 — 포도밭에서',
+      text: '어느 무더운 여름날, 배고픈 <span class="highlight" onclick="showWordTip(event,\'여우\',\'영리하고 꾀가 많은 동물이에요.\')">여우</span>가 숲을 헤매다 탐스러운 포도송이를 발견했어요.<br><br>포도는 높은 담장 위에 주렁주렁 달려 있었고, 여우는 <span class="highlight" onclick="showWordTip(event,\'탐스러운\',\'보기에 먹음직스럽고 탐이 나는 것을 뜻해요.\')">탐스러운</span> 포도를 먹고 싶어 온몸으로 뛰어올랐지요.<br><br>"에잇! 저 포도는 <span class="highlight" onclick="showWordTip(event,\'신 포도\',\'&ldquo;저 포도는 분명히 실거야&rdquo;라고 스스로 위로하는 표현이에요.\')">어차피 실 거야.</span>" 여우는 씩씩거리며 자리를 떠났답니다.'
+    },
+    {
+      illus: '🌟💡', chapter: '제 4 장 — 교훈',
+      text: '이 이야기는 우리에게 중요한 교훈을 알려줘요. <span class="highlight" onclick="showWordTip(event,\'포기\',\'하던 일을 그만두는 것을 뜻해요.\')">포기</span>했을 때 자신을 위로하기 위해 변명하는 것은 솔직하지 않은 태도랍니다.'
+    }
+  ];
+
+  function updatePage() {
+    const page = pages[Math.min(currentPage - 1, pages.length - 1)];
+    const pageEl = document.getElementById('book-page');
+    pageEl.classList.add('turning');
+    setTimeout(() => {
+      pageEl.querySelector('.book-illustration').textContent = page.illus;
+      pageEl.querySelector('.book-chapter').textContent = page.chapter;
+      pageEl.querySelector('.book-text').innerHTML = page.text;
+      document.getElementById('page-indicator').textContent = `${currentPage} / ${totalPages}`;
+      pageEl.classList.remove('turning');
+    }, 200);
+    hideWordTip();
+  }
+
+  function nextPage() {
+    if (currentPage < totalPages) { currentPage++; updatePage(); }
+    else showToast('마지막 페이지예요! 🎉');
+  }
+
+  function prevPage() {
+    if (currentPage > 1) { currentPage--; updatePage(); }
+  }
+
+  document.getElementById('book-viewer').addEventListener('click', function(e) {
+    if (!e.target.closest('.highlight') && !e.target.closest('.page-btn') && !e.target.closest('.word-tooltip')) {
+      nextPage();
+    }
+  });
+
+  // ── Word Tooltip ──
+  function showWordTip(e, word, desc) {
+    e.stopPropagation();
+    const tip = document.getElementById('word-tooltip');
+    document.getElementById('tooltip-word').textContent = word;
+    document.getElementById('tooltip-desc').innerHTML = desc;
+    const rect = e.target.getBoundingClientRect();
+    const viewer = document.getElementById('book-viewer').getBoundingClientRect();
+    tip.style.top = (rect.bottom - viewer.top + 8) + 'px';
+    tip.style.left = Math.max(0, (rect.left - viewer.left)) + 'px';
+    tip.classList.add('show');
+
+    // Auto-show in speech bubble
+    setCharacterSpeech(`"${word}"에 대해 궁금하구나! ${desc} 더 알고 싶은 게 있어? 🤓`);
+  }
+
+  function hideWordTip() {
+    document.getElementById('word-tooltip').classList.remove('show');
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.word-tooltip') && !e.target.closest('.highlight')) {
+      hideWordTip();
+    }
+  });
+
+  // ── Chat ──
+  let chatOpen = false;
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chat-window').classList.toggle('open', chatOpen);
+    const btn = document.getElementById('chat-toggle-btn');
+    btn.classList.toggle('active', chatOpen);
+    document.getElementById('chat-btn-label').textContent = chatOpen ? '대화 접기' : '레니에게 질문하기';
+    if (chatOpen) document.getElementById('chat-input').focus();
+  }
+
+  const foxReplies = {
+    '왜 포기했어?': '사실 많이 시도했는데 도저히 손이 닿지 않았어... 근데 지금 생각하면 더 방법을 찾아볼 수 있었을 것 같아 😔',
+    '다시 시도할 수 있었어?': '응! 사다리를 찾거나, 나무를 타거나, 친구한테 도움을 요청했을 수 있었어. 포기하기 전에 더 생각해볼 걸 그랬어 🤔',
+    '기분이 어때?': '처음엔 속이 상했는데, 이제는 좋은 교훈을 얻었으니까 괜찮아! 너랑 이야기하니 기분이 나아졌어 😊',
+    '교훈이 뭐야?': '안 되면 변명하지 말고, 왜 안 됐는지 솔직하게 생각해보는 게 중요해! 그래야 다음엔 더 잘할 수 있거든 💪'
+  };
+
+  function sendQuickPrompt(el) {
+    const text = el.textContent;
+    addMessage(text, 'user');
+    el.style.opacity = '0.4';
+    setTimeout(() => el.style.opacity = '', 1000);
+    simulateReply(foxReplies[text] || '그건 정말 좋은 질문이야! 같이 생각해볼까? 🦊');
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    input.value = '';
+    simulateReply('오, 재미있는 질문이야! 나는 그때 정말 많이 시도했는데 결국 포기하고 말았어 😅 너라면 어떻게 했을 것 같아?');
+  }
+
+  function addMessage(text, who) {
+    const msgs = document.getElementById('chat-messages');
+    const msg = document.createElement('div');
+    msg.className = `chat-msg ${who === 'user' ? 'user' : ''}`;
+    msg.innerHTML = `
+      <div class="chat-avatar">${who === 'user' ? '🧒' : '🦊'}</div>
+      <div class="chat-bubble">${text}</div>
+    `;
+    msgs.appendChild(msg);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function simulateReply(text) {
+    const typing = document.getElementById('typing-indicator');
+    const speech = document.getElementById('speech-text');
+    typing.classList.add('show');
+    speech.style.display = 'none';
+    setEmotionBadge('🤔');
+    setTimeout(() => {
+      typing.classList.remove('show');
+      speech.style.display = '';
+      addMessage(text, 'fox');
+      setCharacterSpeech(text);
+      setEmotionBadge('😊');
+    }, 1200 + Math.random() * 800);
+  }
+
+  function setCharacterSpeech(text) {
+    document.getElementById('speech-text').textContent = text;
+  }
+
+  function setEmotionBadge(emoji) {
+    document.getElementById('emotion-badge').textContent = emoji;
+  }
+
+  // ── Emotion Selector ──
+  function openEmotionSelector() {
+    document.getElementById('emotion-overlay').classList.add('show');
+  }
+
+  function closeEmotionSelector(e) {
+    if (!e || e.target === document.getElementById('emotion-overlay')) {
+      document.getElementById('emotion-overlay').classList.remove('show');
+    }
+  }
+
+  function selectEmotion(emoji, label) {
+    setEmotionBadge(emoji);
+    closeEmotionSelector();
+    setCharacterSpeech(`${label}구나! 그 기분 이해해. 이야기 계속 함께 해보자 ${emoji}`);
+    if (!chatOpen) toggleChat();
+    addMessage(`나 지금 ${label}`, 'user');
+    simulateReply(`${label}구나! 이야기를 읽으면서 어떤 장면에서 그런 기분이 들었어? 🦊`);
+    showToast(`감정을 전달했어요: ${emoji} ${label}`);
+  }
+
+  // ── Library ──
+  function openLibrary() {
+    document.getElementById('library-overlay').classList.add('show');
+  }
+
+  function closeLibrary(e) {
+    if (!e || e.target === document.getElementById('library-overlay')) {
+      document.getElementById('library-overlay').classList.remove('show');
+    }
+  }
+
+  function selectBook(el, title) {
+    document.querySelectorAll('.book-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelector('.nav-book-title').innerHTML = `${title} <span>선택됨</span>`;
+    setTimeout(() => {
+      closeLibrary();
+      showToast(`📖 "${title}" 선택됨! 레니가 기다리고 있어요.`);
+    }, 400);
+  }
+
+  // ── Video Scene ──
+  const sceneDescs = ['포도밭 도착', '점프 시도', '포기하는 여우', '교훈'];
+
+  function selectScene(e, idx) {
+    e.stopPropagation();
+    document.querySelectorAll('.video-scene-thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+    showToast(`🎬 장면: ${sceneDescs[idx]}`);
+  }
+
+  function toggleVideo() {
+    showToast('🎬 영상 기능은 곧 추가될 예정이에요!');
+  }
+
+  // ── Toast ──
+  let toastTimer;
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  // ── Character Blink ──
+  function blink() {
+    const el = document.getElementById('eye-l');
+    const er = document.getElementById('eye-r');
+    if (!el || !er) return;
+    el.setAttribute('ry', '1'); er.setAttribute('ry', '1');
+    setTimeout(() => { el.setAttribute('ry', '6'); er.setAttribute('ry', '6'); }, 120);
+  }
+  setInterval(blink, 3500 + Math.random() * 2000);
+  setInterval(() => {
+    if (Math.random() < 0.3) blink();
+    setTimeout(() => { if (Math.random() < 0.4) blink(); }, 200);
+  }, 5000);
+
+  // Init
+  updatePage();
+</script>
+</body>
+</html>
